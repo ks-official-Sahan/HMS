@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>User Registration</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <meta name="robots" content="noindex, follow" />
+  </head>
+
+  <body class="form-v10" onload="loadRegisterPage('user');">
+    <!-- Page -->
+    <div class="page-content">
+      <div class="form-v10-content">
+        <!-- Form -->
+        <div class="form-detail" id="myform">
+          <!-- Left -->
+          <div class="form-left">
+            <h2>General Infomation</h2>
+
+            <!-- Content -->
+            <div class="form-row">
+              <select id="title" required>
+                <option class="option" value="0" disabled selected>Title</option>
+                <option class="option" value="Mr">Mr.</option>
+                <option class="option" value="Mrs">Mrs.</option>
+                <option class="option" value="Miss">Miss.</option>
+              </select>
+              <span class="select-btn">
+                <i class="zmdi zmdi-chevron-down"></i>
+              </span>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row form-row-1">
+                <input
+                  type="text"
+                  id="first_name"
+                  class="input-text"
+                  placeholder="First Name"
+                  required
+                />
+              </div>
+              <div class="form-row form-row-2">
+                <input
+                  type="text"
+                  id="last_name"
+                  class="input-text"
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <select id="position">
+                <option value="0" disabled selected>Position</option>
+              </select>
+              <span class="select-btn">
+                <i class="zmdi zmdi-chevron-down"></i>
+              </span>
+            </div>
+
+            <div class="form-row">
+              <input
+                type="text"
+                class="name_with_initials"
+                id="name_with_initials"
+                placeholder="Name With Initials"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <div class="form-row form-row-3">
+                <input
+                  type="date"
+                  class="age"
+                  id="dob"
+                  required
+                />
+              </div>
+              <div class="form-row form-row-4">
+                <select id="department">
+                  <option value="0" disabled selected>Department</option>
+                </select>
+                <span class="select-btn">
+                  <i class="zmdi zmdi-chevron-down"></i>
+                </span>
+              </div>
+            </div>
+            <!-- Content -->
+          </div>
+          <!-- Left -->
+
+          <!-- Right -->
+          <div class="form-right">
+            <h2>Contact Details</h2>
+
+            <!-- Content -->
+            <div class="form-row">
+              <input
+                type="text"
+                class="street"
+                id="line1"
+                placeholder="Street Line 1"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <input
+                type="text"
+                class="street"
+                id="line2"
+                placeholder="Street Line 2"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <div class="form-row form-row-1">
+                <input
+                  type="text"
+                  class="street"
+                  id="line3"
+                  placeholder="Street Line 3"
+                />
+              </div>
+              <div class="form-row form-row-2">
+                <input
+                  type="text"
+                  class="zip"
+                  id="zip"
+                  placeholder="Zip Code"
+                  required
+                />
+                <span class="select-btn">
+                  <i class="zmdi zmdi-chevron-down"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <select id="province">
+                <option value="0" disabled selected>Province</option>
+              </select>
+              <span class="select-btn">
+                <i class="zmdi zmdi-chevron-down"></i>
+              </span>
+            </div>
+
+            <div class="form-row form-row">
+              <input
+                type="text"
+                class="phone"
+                id="mobile"
+                placeholder="Phone Number"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <input
+                type="text"
+                id="your_email"
+                class="input-text"
+                required
+                pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"
+                placeholder="Your Email"
+              />
+            </div>
+
+            <div class="form-group">
+              <div class="form-row form-row-4">
+                <input
+                  type="password"
+                  class="phone"
+                  id="password"
+                  placeholder="Password"
+                />
+              </div>
+              <div class="form-row form-row-4">
+                <input
+                  type="password"
+                  class="phone"
+                  id="cPassword"
+                  placeholder="Confirm Password"
+                  required
+                />
+                <span class="select-btn">
+                  <i class="zmdi zmdi-chevron-down"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-checkbox">
+              <label class="container"
+                ><p>
+                  I do accept the
+                  <a href="#" class="text">Terms and Conditions</a>
+                </p>
+                <input type="checkbox" id="checkbox" required/>
+                <span class="checkmark"></span>
+              </label>
+            </div>
+
+            <div class="form-row form-row-1">
+              <span class="text">Already have an account? </span>
+              <a href="login.html" class="text" style="color:red">Login</a>
+            </div>
+
+            <div class="form-row-last">
+              <!-- <input
+                type="submit"
+                name="register"
+                class="register"
+                value="Register"
+                onclick="registerUser();"
+              /> -->
+              <button type="button" class="register" onclick="registerUser();">Register</button>
+            </div>
+            <!-- Content -->
+          </div>
+          <!-- Right -->
+        </div>
+        <!-- Form -->
+      </div>
+    </div>
+    <!-- Page -->
+
+    <script src="./assets/js/register.js"></script>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Admin Register Form</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link rel="stylesheet" href="./assets/css/adminRegister.css" />
+    <meta name="robots" content="noindex, follow" />
+  </head>
+  <body class="form-v10" onload="loadRegisterPage('admin');">
+
+    <!-- Page -->
+    <div class="page-content">
+      <div class="form-v10-content">
+        <!-- Form -->
+        <div class="form-detail" id="myform">
+          <!-- Left -->
+          <div class="form-left">
+            <h2>Admin's General Infomation</h2>
+
+            <!-- Content -->
+            <div class="form-row">
+              <select id="title">
+                <option class="option" selected disabled value="0">Title</option>
+                <option class="option" value="Mr">Mr.</option>
+                <option class="option" value="Mrs">Mrs.</option>
+                <option class="option" value="Miss">Miss.</option>
+              </select>
+              <span class="select-btn">
+                <i class="zmdi zmdi-chevron-down"></i>
+              </span>
+            </div>
+            <div class="form-group">
+              <div class="form-row form-row-1">
+                <input
+                  type="text"
+                  id="first_name"
+                  class="input-text"
+                  placeholder="First Name"
+                  required
+                />
+              </div>
+              <div class="form-row form-row-2">
+                <input
+                  type="text"
+                  id="last_name"
+                  class="input-text"
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <select id="position">
+                <option value="0" selected disabled>Position</option>
+              </select>
+              <span class="select-btn">
+                <i class="zmdi zmdi-chevron-down"></i>
+              </span>
+            </div>
+            <div class="form-row">
+              <input
+                type="text"
+                class="name_with_initials"
+                id="name_with_initials"
+                placeholder="Name With Initials"
+                required
+              />
+            </div>
+            <!-- Content -->
+          </div>
+          <!-- Left -->
+
+          <!-- Right -->
+          <div class="form-right">
+            <h2>Contact Details</h2>
+
+            <!-- Content -->
+            <div class="form-row">
+              <input
+                type="text"
+                class="phone"
+                id="mobile"
+                placeholder="Phone Number"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <input
+                type="text"
+                id="your_email"
+                class="input-text"
+                required
+                pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"
+                placeholder="Your Email"
+              />
+            </div>
+            <div class="form-row">
+              <input
+                type="password"
+                id="password"
+                class="input-text"
+                required
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-row">
+              <input
+                type="password"
+                id="cPassword"
+                class="input-text"
+                required
+                placeholder="Confirm Password"
+              />
+            </div>
+            <div class="form-row-last">
+              <input
+                type="submit"
+                class="register"
+                value="Register"
+                onclick="registerAdmin();"
+              />
+            </div>
+            <!-- Content -->
+          </div>
+          <!-- Right -->
+        </div>
+        <!-- Form -->
+      </div>
+    </div>
+    <!-- Page -->
+
+    <script src="./assets/js/register.js"></script>
+  </body>
+</html>
