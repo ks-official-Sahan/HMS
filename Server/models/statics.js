@@ -24,6 +24,6 @@ const positionSchema = new mongoose.Schema({
 });
 const Position = mongoose.model('Position', positionSchema);
 
-exports.Province = Province;
-exports.Position = Position;
-exports.Department = Department;
+module.exports.Province = Province;
+module.exports.Position = Position;
+module.exports.Department = Department;

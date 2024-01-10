@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const mongoose = require("mongoose");
 
-const leaveSchema = new mongoose.Schema({
+const claimSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
@@ -24,20 +24,24 @@ const leaveSchema = new mongoose.Schema({
   status: {
     type: String,
     default: "Pending",
-  }
+  },
+  // acceptedBy: {
+  //   type: mongoose.Types.ObjectId,
+  //   ref: "admins"
+  // }
 });
 
-const Leave = mongoose.model("Leave", leaveSchema);
+const Claim = mongoose.model("Claim", claimSchema);
 
-function validateLeave(leave) {
+function validateClaim(claim) {
   const schema = Joi.object({
     date: Joi.date().required(),
     description: Joi.string().min(4).max(1024).required(),
     userId: Joi.objectId().required(),
   });
 
-  return schema.validate(leave);
+  return schema.validate(claim);
 }
 
-module.exports.Leave = Leave;
-module.exports.validateLeave = validateLeave;
+module.exports.Claim = Claim;
+module.exports.validateClaim = validateClaim;

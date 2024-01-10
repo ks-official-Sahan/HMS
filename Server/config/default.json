@@ -1,5 +1,5 @@
 {
     "name": "Health Management System",
     "jwtPrivateKey": "",
-    "mongodb": {}
+    "mongodb": ""
 }

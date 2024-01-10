@@ -22,7 +22,7 @@ router.post("/user", async (req, res) => {
 
     // res.send(user);
     const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(JSON.stringify(_.pick(user, ['_id', 'email', 'mobile', 'fname', 'lname', 'password'])));
+    res.header('x-auth-token', token).send(token);
 });
 
 router.post("/admin", async (req, res) => {
@@ -38,7 +38,8 @@ router.post("/admin", async (req, res) => {
 
   // res.send(admin);
   const token = admin.generateAuthToken();
-  res.header('x-auth-token', token).send(JSON.stringify(_.pick(admin, ['_id', 'email', 'mobile', 'fname', 'lname', 'password'])));
+  // res.header('x-auth-token', token).send(JSON.stringify(_.pick(admin, ['_id', 'email', 'mobile', 'fname', 'lname', 'password'])));
+  res.header('x-auth-token', token).send(JSON.stringify(token));
 });
 
 function validate(user) {

@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const mongoose = require("mongoose");
 
-const leaveSchema = new mongoose.Schema({
+const statusSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
@@ -16,28 +16,25 @@ const leaveSchema = new mongoose.Schema({
   user: {
     type: mongoose.Types.ObjectId,
     ref: "users",
+    required: true,
   },
-  appliedOn: {
+  updatedOn: {
     type: Date,
     default: () => Date.now(),
   },
-  status: {
-    type: String,
-    default: "Pending",
-  }
 });
 
-const Leave = mongoose.model("Leave", leaveSchema);
+const Status = mongoose.model("Status", statusSchema);
 
-function validateLeave(leave) {
+function validateStatus(status) {
   const schema = Joi.object({
     date: Joi.date().required(),
     description: Joi.string().min(4).max(1024).required(),
-    userId: Joi.objectId().required(),
+    user: Joi.objectId().required(),
   });
 
-  return schema.validate(leave);
+  return schema.validate(status);
 }
 
-module.exports.Leave = Leave;
-module.exports.validateLeave = validateLeave;
+module.exports.Status = Status;
+module.exports.validateStatus = validateStatus;

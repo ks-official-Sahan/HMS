@@ -1,6 +1,6 @@
 const Joi = require("joi");
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
 const mongoose = require("mongoose");
 
@@ -20,7 +20,8 @@ const adminSchema = new mongoose.Schema({
     maxLength: 100,
     trim: true,
   },
-  nwi: { //nameWithInitials
+  nwi: {
+    //nameWithInitials
     type: String,
     minLength: 5,
     maxLength: 200,
@@ -47,7 +48,7 @@ const adminSchema = new mongoose.Schema({
   },
   position: {
     type: mongoose.Types.ObjectId,
-    ref: "position",
+    ref: "Position",
   },
   registeredOn: {
     type: Date,
@@ -56,13 +57,24 @@ const adminSchema = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: true,
-  }
+  },
 });
 
 adminSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get("jwtPrivateKey"));
+  const token = jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      mobile: this.mobile,
+      fname: this.fname,
+      lname: this.lname,
+      nwi: this.nwi,
+      isAdmin: this.isAdmin,
+    },
+    config.get("jwtPrivateKey")
+  );
   return token;
-}
+};
 
 const Admin = mongoose.model("Admin", adminSchema);
 
@@ -73,7 +85,11 @@ function validateAdmin(admin) {
     lname: Joi.string().required().min(2).max(100),
     nwi: Joi.string().required().min(5).max(200),
     email: Joi.string().required().min(5).max(255).email(),
-    password: Joi.string().required().min(4).max(255).regex(/^[a-zA-Z0-9]{3,30}$/),
+    password: Joi.string()
+      .required()
+      .min(4)
+      .max(255)
+      .regex(/^[a-zA-Z0-9]{3,30}$/),
     mobile: Joi.number().required(),
     position: Joi.objectId().required(),
   });
@@ -81,5 +97,22 @@ function validateAdmin(admin) {
   return schema.validate(admin);
 }
 
-exports.Admin = Admin;
-exports.validateAdmin = validateAdmin;
+function validateAdminUpdate(admin) {
+  if (admin.password.trim() !== admin.cPassword.trim()) return ("Passwords doesn't match");
+
+  const schema = Joi.object({
+    position: Joi.objectId(),
+    mobile: Joi.string().min(9).max(14),
+    email: Joi.string().min(5).max(255).email(),
+    password: Joi.string()
+      .min(4)
+      .max(255)
+      .regex(/^[a-zA-Z0-9]{3,30}$/),
+  });
+
+  return schema.validate(admin);
+}
+
+module.exports.Admin = Admin;
+module.exports.validateAdmin = validateAdmin;
+module.exports.validateAdminUpdate = validateAdminUpdate;

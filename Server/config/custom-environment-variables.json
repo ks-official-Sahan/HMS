@@ -1,6 +1,4 @@
 {
     "jwtPrivateKey": "hms_jwtPrivateKey",
-    "mongodb": {
-        "connection": "hms_mongo_url"
-    }
+    "mongodb": "hms_mongo_url"
 }

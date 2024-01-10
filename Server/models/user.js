@@ -1,6 +1,6 @@
 const Joi = require("joi");
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
 const mongoose = require("mongoose");
 
@@ -22,8 +22,8 @@ const addressSchema = new mongoose.Schema({
     require: true,
   },
   province: {
-    type: mongoose.Types.ObjectId,
-    ref: "province",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Province",
   },
 });
 
@@ -43,7 +43,8 @@ const userSchema = new mongoose.Schema({
     maxLength: 100,
     trim: true,
   },
-  nwi: { //nameWithInitials
+  nwi: {
+    //nameWithInitials
     type: String,
     minLength: 5,
     maxLength: 200,
@@ -62,23 +63,24 @@ const userSchema = new mongoose.Schema({
     maxLength: 1024,
   },
   mobile: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
     minLength: 8,
     maxLength: 12,
   },
-  dob: { //dateOfBirth
+  dob: {
+    //dateOfBirth
     type: String, //dob has to be stored as a String, because saving it as a Date will store the time with 00s by default
     required: true,
   },
   position: {
-    type: mongoose.Types.ObjectId,
-    ref: "position",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Position",
   },
   department: {
-    type: mongoose.Types.ObjectId,
-    ref: "department",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Department",
   },
   address: {
     type: addressSchema,
@@ -95,9 +97,20 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+  const token = jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      mobile: this.mobile,
+      fname: this.fname,
+      lname: this.lname,
+      nwi: this.nwi,
+      isAdmin: false,
+    },
+    config.get("jwtPrivateKey")
+  );
   return token;
-}
+};
 
 const User = mongoose.model("User", userSchema);
 
@@ -108,8 +121,12 @@ function validateUser(user) {
     lname: Joi.string().required().min(2).max(100),
     nwi: Joi.string().required().min(5).max(200),
     email: Joi.string().required().min(5).max(255).email(),
-    password: Joi.string().required().min(4).max(255).regex(/^[a-zA-Z0-9]{3,30}$/),
-    mobile: Joi.number().required(),
+    password: Joi.string()
+      .required()
+      .min(4)
+      .max(255)
+      .regex(/^[a-zA-Z0-9]{3,30}$/),
+    mobile: Joi.string().min(9).max(14).required(),
     dob: Joi.date().required(),
     address: {
       line1: Joi.string().required().min(2).max(255),
@@ -125,5 +142,30 @@ function validateUser(user) {
   return schema.validate(user);
 }
 
-exports.User = User;
-exports.validateUser = validateUser;
+function validateUserUpdate(user) {
+  if (user.password.trim() !== user.cPassword.trim()) return ("Passwords doesn't match");
+
+  const schema = Joi.object({
+    address: {
+      line1: Joi.string().min(2).max(255),
+      line2: Joi.string().min(2).max(255),
+      line3: Joi.string().min(2).max(255),
+      zipcode: Joi.string().min(5).max(9),
+      province: Joi.objectId(),
+    },
+    position: Joi.objectId(),
+    department: Joi.objectId(),
+    mobile: Joi.string().min(9).max(14),
+    email: Joi.string().min(5).max(255).email(),
+    password: Joi.string()
+      .min(4)
+      .max(255)
+      .regex(/^[a-zA-Z0-9]{3,30}$/),
+  });
+
+  return schema.validate(user);
+}
+
+module.exports.User = User;
+module.exports.validateUser = validateUser;
+module.exports.validateUserUpdate = validateUserUpdate;

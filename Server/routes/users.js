@@ -1,11 +1,35 @@
-const { User, validateUser } = require("../models/user");
+const { User, validateUser, validateUserUpdate } = require("../models/user");
 const _ = require('lodash');
 const bcrypt = require("bcrypt");
+
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 const mongoose = require("mongoose");
 const express = require("express");
 
 const router = express.Router();
+
+router.get("/", auth, async (req, res) => {
+  const user = await User.find()
+    .select("-password -_id -fname -lname -address._id -__v -registeredOn")
+    .populate("position", "-_id -__v")
+    .populate("department", "-_id -__v")
+    .populate("address.province", "-_id -__v");
+
+  res.send(JSON.stringify(user));
+});
+
+router.get("/user", auth, async (req, res) => {
+  const user = await User.findOne({ _id: req.user._id })
+    .select("-password -_id -fname -lname -address._id -__v -registeredOn")
+    .populate("position", "-_id -__v")
+    .populate("department", "-_id -__v")
+    .populate("address.province", "-_id -__v");
+  if (!user) return res.status(400).send("Cannot find the user");
+
+  res.send(JSON.stringify(user));
+});
 
 router.post("/", async (req, res) => {
   const { error } = validateUser(req.body);
@@ -21,12 +45,30 @@ router.post("/", async (req, res) => {
 
   const user = await User.create(req.body);
 
-  // res.send(user);
-  // res.send(_.pick(user, ['_id', 'email', 'mobile', 'fname', 'lname', 'password']));
-
   const token = user.generateAuthToken();
   res.header('x-auth-token', token).send(JSON.stringify(_.pick(user, ['_id', 'email', 'mobile', 'fname', 'lname', 'password'])));
 
+});
+
+router.put("/user", auth, async (req, res) => {
+  const { error } = validateUserUpdate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const user = await User.find({ _id: req.user._id });
+  if (!user) return res.status(401).send("Something Failed");
+
+  user.email = req.body.email;
+  user.mobile = req.body.mobile;
+
+  if (req.body.password.trim() !== "") {
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+    user.password = req.body.password;
+  }
+
+  await user.save();
+
+  res.send(JSON.stringify(user));
 });
 
 module.exports = router;

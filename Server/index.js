@@ -3,10 +3,10 @@ const winston = require('winston');
 const express = require("express");
 const app = express();
 
-require('./startup/routes')(app);
 require('./startup/logging')();
-require('./startup/db')();
+require('./startup/routes')(app);
 require('./startup/config')();
+require('./startup/db')();
 require('./startup/validation')();
 
 /* 
