@@ -14,10 +14,23 @@ function getToken() {
     return window.sessionStorage.getItem("hms_user");
   } catch (err) {
     alert(
-      "Couldn't get the token. Please login. (Try update your web browser)",
+      "Couldn't get the Session. Please login. (Try update your web browser)",
       err.message
     );
     window.location = "../login.html";
+  }
+}
+
+function logout() {
+  try {
+    window.sessionStorage.removeItem("hms_user");
+    window.location = "../login.html";
+  } catch (error) {
+    alert(
+      "Couldn't access the Session. Please login. (Try update your web browser)",
+      err.message
+    );
+    window.location = "../login.html";    
   }
 }
 
