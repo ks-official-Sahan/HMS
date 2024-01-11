@@ -15,7 +15,7 @@ router.get("/user", auth, async (req, res) => {
 
   const notifications = await Notification.find({
     user: req.user._id,
-    receiver: "User",
+    receiver: "Admin",
   })
     .sort({ datetime: -1 })
     .limit((req.query.limit)?5:0)
@@ -28,7 +28,7 @@ router.get("/count/user", auth, async (req, res) => {
   const count = await Notification.find({
     user: req.user._id,
     seen: false,
-    receiver: "User",
+    receiver: "Admin",
   }).countDocuments();
   res.send(JSON.stringify(count));
 });
