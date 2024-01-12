@@ -8,6 +8,10 @@ function formatDateTime(date) {
   return new Date(date).toLocaleString("en-US", { timeZone: "IST" });
 }
 
+function setMaxDateToday() {
+  document.getElementById('date').max = formatDate(Date.now());
+}
+
 /*   Token   */
 function getToken() {
   try {
@@ -30,7 +34,7 @@ function logout() {
       "Couldn't access the Session. Please login. (Try update your web browser)",
       err.message
     );
-    window.location = "../login.html";    
+    window.location = "../login.html";
   }
 }
 
@@ -429,26 +433,22 @@ function loadProfile() {
       if (request.status === 200) {
         let resObj = JSON.parse(res);
 
-        document.getElementById("name").value = resObj.nwi;
-        document.getElementById("email").value = resObj.email;
+        document.getElementById("name").textContent = `Name: ${resObj.nwi}`;
+        document.getElementById("email").textContent = resObj.email;
+        document.getElementById("dob").textContent = resObj.dob;
+        document.getElementById("position").textContent = resObj.position.name;
+        document.getElementById("department").textContent =
+          resObj.department.name;
         document.getElementById("email2").value = resObj.email;
         document.getElementById("mobile").value = resObj.mobile;
-        document.getElementById("dob").value = resObj.dob;
-        document.getElementById("position").value = resObj.position.name;
-        document.getElementById("position2").value = resObj.position.name;
-        document.getElementById("department").value = resObj.department.name;
-        document.getElementById("department2").value = resObj.department.name;
 
         const aObj = resObj.address;
-        document.getElementById("address").value =
-          aObj.line1 +
-          ", " +
-          aObj.line2 +
-          ", " +
-          aObj.line3 +
-          ", " +
-          aObj.zipcode;
-        document.getElementById("province").value = aObj.province.name;
+        document.getElementById("line1").value = aObj.line1;
+        document.getElementById("line2").value = aObj.line2;
+        document.getElementById("line3").value = aObj.line3;
+        document.getElementById("zipcode").value = aObj.zipcode;
+
+        loadProvinces(aObj.province.name);
       } else {
         console.log("Bad Request", request.status, res);
         alert(res);
@@ -459,38 +459,63 @@ function loadProfile() {
     }
   };
 
-  request.open("GET", "http://localhost:3000/api/profile/user");
+  request.open("GET", "http://localhost:3000/api/users/user");
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
 }
 
+function loadProvinces(selectedProvince) {
+  province = document.getElementById("province");
+
+  const request = new XMLHttpRequest();
+
+  request.onreadystatechange = function () {
+    if (request.readyState == 4) {
+      const res = request.responseText;
+      if (request.status == 200) {
+        let resObj = JSON.parse(res);
+
+        for (var obj of resObj) {
+          var option = document.createElement("option");
+          option.value = obj._id;
+          option.innerText = obj.name;
+          if (obj.name === selectedProvince) option.selected = true;
+          province.append(option);
+        }
+      } else {
+        console.log("Bad Request", request.status, res);
+      }
+    }
+  };
+
+  request.open("GET", "http://localhost:3000/api/statics/province");
+  request.send();
+}
+
 function updateProfile() {
-  const email2 = document.getElementById("email2");
-  const position2 = document.getElementById("position2");
-  const department2 = document.getElementById("department2");
-  let address = document.getElementById("address");
-  const mobile = document.getElementById("mobile");
-  const province = document.getElementById("province");
   const password = document.getElementById("password");
   const cPassword = document.getElementById("cPassword");
 
-  address = address.value.trim().split(",");
-
   const data = {
-    email: email2.value,
-    mobile: mobile.value,
-    position: position2.value,
-    department: department2.value,
-    password: password.value,
-    cPassword: cPassword.value,
+    email: document.getElementById("email2").value,
+    mobile: document.getElementById("mobile").value,
     address: {
-      line1: address[0],
-      line2: address[1],
-      line3: address[2],
-      zipcode: address[3],
-      province: province.value,
+      line1: document.getElementById("line1").value,
+      line2: document.getElementById("line2").value,
+      line3: document.getElementById("line3").value,
+      zipcode: document.getElementById("zipcode").value,
+      province: document.getElementById("province").value,
     },
   };
+
+  if (password.value.trim() !== "") {
+    if (password.value.trim() === cPassword.value.trim()) {
+      data.password = password.value;
+      data.cPassword = cPassword.value;
+    } else {
+      return alert("Passwords doesn't match");
+    }
+  }
 
   const jsonData = JSON.stringify(data);
 

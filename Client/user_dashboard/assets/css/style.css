@@ -1,4 +1,5 @@
-.comment-container, .notification-container {
+.comment-container,
+.notification-container {
     max-width: 100%;
     max-height: 90vh;
     height: 85vh;
@@ -13,7 +14,8 @@
     align-items: center;
 }
 
-.comment-container hr, .notification-container hr {
+.comment-container hr,
+.notification-container hr {
     width: 98%;
     border-bottom: solid 3px rgba(0, 0, 0, 0.501);
 }
@@ -36,7 +38,8 @@
     margin-bottom: 10px;
 }
 
-.comment-list, .notification-list {
+.comment-list,
+.notification-list {
     width: 100%;
     list-style: none;
     padding: 30px;
@@ -47,11 +50,13 @@
     flex-direction: column-reverse;
 }
 
-.notification-box, .comment-box {
+.notification-box,
+.comment-box {
     width: 100%;
 }
 
-.comment, .notifications {
+.comment,
+.notifications {
     width: 100%;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -63,19 +68,22 @@
     justify-content: space-between;
 }
 
-.comment span, .notifications span {
+.comment span,
+.notifications span {
     font-size: 0.8em;
     color: #888;
     margin-left: 15px;
 }
 
-.comment p, .notifications p  {
+.comment p,
+.notifications p {
     margin: 0 15px 0 15px;
     padding: 0 15px 0 0;
     width: 100%;
 }
 
-.comment div, .notifications div {
+.comment div,
+.notifications div {
     width: 95%;
     padding-bottom: 2px;
     display: flex;

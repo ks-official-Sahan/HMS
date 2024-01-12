@@ -1,131 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>User Profile</title>
 
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
     <meta name="viewport" content="width=device-width" />
 
     <!-- Bootstrap core CSS     -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 
     <!--  CSS     -->
-    <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/profile.css" rel="stylesheet" />
 
     <!--  Light Bootstrap Table core CSS    -->
-    <link href="assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+    <link
+      href="assets/css/light-bootstrap-dashboard.css?v=1.4.0"
+      rel="stylesheet"
+    />
 
     <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css" />
+    <link
+      href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="http://fonts.googleapis.com/css?family=Roboto:400,700,300"
+      rel="stylesheet"
+      type="text/css"
+    />
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
-</head>
-
-<body onload="getNotificationCount();">
+  </head>
+  <body onload="loadProfile(); getNotificationCount();">
     <div class="wrapper">
-        <!-- Side Bar -->
-        <div class="sidebar" data-color="blue">
-            <div class="sidebar-wrapper">
-                <div class="logo">
-                    <a href="#" class="simple-text"> health management system </a>
-                </div>
+      <!-- Side Bar -->
+      <div class="sidebar" data-color="blue">
+        <div class="sidebar-wrapper">
+          <div class="logo">
+            <a href="#" class="simple-text"> health management system </a>
+          </div>
 
-                <ul class="nav">
-                    <li>
-                        <a href="status.html">
-                            <i class="pe-7s-graph"></i>
-                            <p>Health Status</p>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="user.html">
-                            <i class="pe-7s-user"></i>
-                            <p>my Profile</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="leave.html">
-                            <i class="pe-7s-note2"></i>
-                            <p>Submit a leave</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="claim.html">
-                            <i class="pe-7s-news-paper"></i>
-                            <p>Insurance claim</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="notifications.html">
-                            <i class="pe-7s-bell"></i>
-                            <p>Notifications</p>
-                        </a>
-                    </li>
-                </ul>
+          <ul class="nav">
+            <li>
+              <a href="status.html">
+                <i class="pe-7s-graph"></i>
+                <p>Health Status</p>
+              </a>
+            </li>
+            <li class="active">
+              <a href="user.html">
+                <i class="pe-7s-user"></i>
+                <p>my Profile</p>
+              </a>
+            </li>
+            <li>
+              <a href="leave.html">
+                <i class="pe-7s-note2"></i>
+                <p>Submit a leave</p>
+              </a>
+            </li>
+            <li>
+              <a href="claim.html">
+                <i class="pe-7s-news-paper"></i>
+                <p>Insurance claim</p>
+              </a>
+            </li>
+            <li>
+              <a href="notifications.html">
+                <i class="pe-7s-bell"></i>
+                <p>Notifications</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Side Bar -->
+
+      <div class="main-panel">
+        <!-- Nav Bar -->
+        <nav class="navbar navbar-default navbar-fixed">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button
+                type="button"
+                class="navbar-toggle"
+                data-toggle="collapse"
+                data-target="#navigation-example-2"
+              >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">My Profile</a>
             </div>
-        </div>
-        <!-- Side Bar -->
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-globe"></i>
+                    <b class="caret hidden-sm hidden-xs"></b>
+                    <span id="count" class="notification hidden-sm hidden-xs"
+                      >0</span
+                    >
+                    <p id="indicator" class="hidden-lg hidden-md">
+                      0 Notifications
+                      <b class="caret"></b>
+                    </p>
+                  </a>
+                  <ul id="notify-list" class="dropdown-menu">
+                    <li><a href="#">Notification</a></li>
+                  </ul>
+                </li>
+              </ul>
 
-        <div class="main-panel">
-            <!-- Nav Bar -->
-            <nav class="navbar navbar-default navbar-fixed">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target="#navigation-example-2">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">My Profile</a>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav navbar-left">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-globe"></i>
-                                    <b class="caret hidden-sm hidden-xs"></b>
-                                    <span id="count" class="notification hidden-sm hidden-xs">5</span>
-                                    <p id="indicator" class="hidden-lg hidden-md">
-                                        5 Notifications
-                                        <b class="caret"></b>
-                                    </p>
-                                </a>
-                                <ul id="notify-list" class="dropdown-menu">
-                                    <li><a href="#">Notification 1</a></li>
-                                    <li><a href="#">Notification 2</a></li>
-                                    <li><a href="#">Notification 3</a></li>
-                                    <li><a href="#">Notification 4</a></li>
-                                    <li><a href="#">Another notification</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a href="#" onclick="logout();">
+                    <p>Log out</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- Nav Bar -->
 
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>
-                                <a href="#" onclick="logout();">
-                                    <p>Log out</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+        <!-- Content -->
+        <div class="container">
+          <div class="left-column">
+            <img
+              class="profile-picture"
+              src="https://as1.ftcdn.net/jpg/03/46/83/96/160_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+              alt="Profile Picture"
+            />
+            <h3 id="name">Name: </h3>
+            <br/>
+            <div>
+              <span>Email:</span> <span id="email"></span>
+            </div>
+            <div>
+              <span>Date of Birth:</span> <span id="dob"></span>
+            </div>
+            <br />
+            <h5>
+              <span>Position:</span>
+              <span id="position"></span>
+            </h5>
+            <div><span>Department:</span> <span id="department"></span></div>
+          </div>
+          <div class="right-column">
+            <div class="edit-panel">
+              <h3>Edit Details</h3>
+              <div>
+                <span>Email</span>
+                <input id="email2" placeholder="Email" type="text" />
+              </div>
+              <div>
+                <span>Mobile</span>
+                <input id="mobile" placeholder="Phone Number" type="text" />
+              </div>
+              <div class="item-container">
+                <div class="item">
+                  <span>Password</span>
+                  <input id="password" placeholder="Password" type="password" />
                 </div>
-            </nav>
-            <!-- Nav Bar -->
-
-            <!-- Content -->
-            <!-- Content -->
+                <div class="item">
+                  <span>Confirm Password</span>
+                  <input
+                    id="cPassword"
+                    placeholder="Confirm Password"
+                    type="password"
+                  />
+                </div>
+              </div>
+              <div>
+                <h4>Address</h4>
+                <input id="line1" placeholder="Line 1" type="text" />
+                <input id="line2" placeholder="Line 2" type="text" />
+                <div class="item-container">
+                    <input id="line3" class="item" placeholder="Line 3" type="text" />
+                    <input id="zipcode" class="item" placeholder="Zip Code" type="text" />
+                </div>
+                <select id="province">
+                  <option value="0" selected disabled>Province</option>
+                </select>
+              </div>
+              <br/>
+              <div class="container">
+                <button onclick="updateProfile();">Update Profile</button>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- Content -->
+      </div>
     </div>
+
     <script src="assets/js/script.js" type="text/javascript"></script>
-</body>
+  </body>
 
-<!--   Core JS Files   -->
-<script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
-<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
-
+  <!--   Core JS Files   -->
+  <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+  <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
 </html>
