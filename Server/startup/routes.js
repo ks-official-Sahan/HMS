@@ -1,6 +1,7 @@
 const express = require('express');
 
 /* routes */
+const cors = require('cors');
 const users = require('../routes/users');
 const admins = require('../routes/admins');
 const auth = require('../routes/auth');
@@ -16,6 +17,9 @@ const error = require('../middleware/error');
 module.exports = function (app) {
     /* middleware */
     app.use(express.json());
+    app.use(cors({
+        origin: '*'
+    }))
 
     /* custom middleware */
     app.use(error);

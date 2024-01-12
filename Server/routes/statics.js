@@ -23,8 +23,11 @@ router.get('/:type', async (req, res) => {
             departments: departments,
         }
         res.send(JSON.stringify(results));
-    }
+    } else {
+        const provinces = await Province.find().sort('name').select({ _id: 1, name: 1 });
 
+        res.send(JSON.stringify(provinces));
+    }
 })
 
 module.exports = router;

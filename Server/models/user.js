@@ -147,9 +147,11 @@ function validateUser(user) {
 }
 
 function validateUserUpdate(user) {
-  if (user.password.trim() !== user.cPassword.trim()) return ("Passwords doesn't match");
-
   const schema = Joi.object({
+    position: Joi.objectId(),
+    department: Joi.objectId(),
+    mobile: Joi.string().min(9).max(14),
+    email: Joi.string().min(5).max(255).email(),
     address: {
       line1: Joi.string().min(2).max(255),
       line2: Joi.string().min(2).max(255),
@@ -157,14 +159,6 @@ function validateUserUpdate(user) {
       zipcode: Joi.string().min(5).max(9),
       province: Joi.objectId(),
     },
-    position: Joi.objectId(),
-    department: Joi.objectId(),
-    mobile: Joi.string().min(9).max(14),
-    email: Joi.string().min(5).max(255).email(),
-    password: Joi.string()
-      .min(4)
-      .max(255)
-      .regex(/^[a-zA-Z0-9]{3,30}$/),
   });
 
   return schema.validate(user);
