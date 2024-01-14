@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const statusSchema = new mongoose.Schema({
   date: {
-    type: Date,
+    type: String,
     required: true,
   },
   description: {

@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const notificationSchema = new mongoose.Schema({
   user: {
     type: mongoose.Types.ObjectId,
-    ref: "users",
+    ref: "User",
   },
   target: {
     type: {
@@ -24,7 +24,7 @@ const notificationSchema = new mongoose.Schema({
   },
   receiver: {
     type: String,
-    default: "user",
+    default: "User",
   },
   seen: {
     type: Boolean,

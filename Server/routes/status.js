@@ -12,31 +12,29 @@ const router = express.Router();
 // status for the relevant user
 router.get("/user", auth, async (req, res) => {
   const status = await Status.find({ user: req.user._id })
-    .sort({ appliedOn: -1, date: -1 })
+    .sort({ updatedOn: -1, date: -1 })
     .select("-user -__v -_id")
     .limit(10);
   res.send(JSON.stringify(status));
 });
 
-// get detail about relevant status
-router.get("/:_id", auth, async (req, res) => {
-  const status = await Status.find({
-    _id: req.params._id,
-    user: req.user._id,
-  });
+// get detail about relevant user's status
+router.get("/:_id", [auth, admin], async (req, res) => {
+  const status = await Status.find({ user: req.params._id })
+    .sort({date: -1, updatedOn: 1});
 
   if (!status) return res.status(400).send("Invalid Status");
   res.send(JSON.stringify(status));
 });
 
-// get all status (admin)
-router.post("/admin", [auth, admin], async (req, res) => {
-  const status = await Status.find()
-    .sort({ appliedOn: 1, date: 1 })
-    .populate("user", { nwi: 1, _id: 1 });
+// // get all status (admin)
+// router.post("/admin", [auth, admin], async (req, res) => {
+//   const status = await Status.find()
+//     .sort({ updatedOn: 1, date: 1 })
+//     .populate("user", { nwi: 1, _id: 1 });
 
-  res.send(JSON.stringify(status));
-});
+//   res.send(JSON.stringify(status));
+// });
 
 // submit status
 router.post("/", auth, async (req, res) => {

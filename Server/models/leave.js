@@ -15,7 +15,7 @@ const leaveSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Types.ObjectId,
-    ref: "users",
+    ref: "User",
   },
   appliedOn: {
     type: Date,
@@ -24,6 +24,10 @@ const leaveSchema = new mongoose.Schema({
   status: {
     type: String,
     default: "Pending",
+  },
+  updatedBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admin"
   }
 });
 

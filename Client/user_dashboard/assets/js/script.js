@@ -140,9 +140,8 @@ function createItems(resObj) {
     p.textContent = obj.description;
 
     const li = document.createElement("li");
-    // li.className = obj.status === "Approved" ? "comment approved" : (obj.status === "Rejected" ? "comment rejected" : "comment");
     li.className = `comment ${
-      obj.status === "Approved"
+      obj.status === "Approve"
         ? " approved"
         : obj.status === "Rejected"
         ? " rejected"
@@ -353,7 +352,7 @@ function loadNotifications(isLimit) {
           createNotificationItems(resObj);
           setTimeout(() => {
             updateSeen();
-          }, 10 * 1000);
+          }, 5 * 1000);
         }
       } else {
         console.log("Bad Request", request.status, res);
@@ -393,6 +392,7 @@ function createNotificationItems(resObj) {
 
     const li = document.createElement("li");
     li.className = obj.seen ? "notifications seen" : "notifications";
+    li.setAttribute('onclick', `window.location = '${obj.target.type === "Claim" ? "claim.html" : "leave.html"}'`);
     li.appendChild(p);
     li.appendChild(div);
 
@@ -493,6 +493,7 @@ function loadProvinces(selectedProvince) {
 }
 
 function updateProfile() {
+  const oPassword = document.getElementById("oPassword");
   const password = document.getElementById("password");
   const cPassword = document.getElementById("cPassword");
 
@@ -508,8 +509,9 @@ function updateProfile() {
     },
   };
 
-  if (password.value.trim() !== "") {
+  if (oPassword.value.trim() !== "" && password.value.trim() !== "") {
     if (password.value.trim() === cPassword.value.trim()) {
+      data.oPassword = oPassword.value;
       data.password = password.value;
       data.cPassword = cPassword.value;
     } else {

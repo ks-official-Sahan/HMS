@@ -31,8 +31,9 @@ router.get("/:_id", auth, async (req, res) => {
 
 // get all leaves (admin)
 router.post("/admin", [auth, admin], async (req, res) => {
-  const leaves = await Leave.find()
-    .sort({ appliedOn: 1, date: 1 })
+  const leaves = await Leave.find({date: {$gt: Date.now()}})
+    .sort({ date: 1, status: -1, appliedOn: 1 })
+    .populate("updatedBy", { nwi: 1, _id: 1 })
     .populate("user", { nwi: 1, _id: 1 });
 
   res.send(JSON.stringify(leaves));
@@ -51,7 +52,7 @@ router.post("/", auth, async (req, res) => {
     // userId: req.body._id,
   });  
 
-  const notification = await Notification.create({
+  await Notification.create({
     user: req.user._id,
     receiver: 'Admin',
     target: {
@@ -65,23 +66,23 @@ router.post("/", auth, async (req, res) => {
 });  
 
 // update a leave (admin)
-router.put("/:id", [auth, admin, _id], async (req, res) => {
-  const leave = await Leave.findOne({
-    _id: req.body._id,
-    user: req.user._id,
-  }).populate("user", "nwi");
+router.put("/", [auth, admin, _id], async (req, res) => {
+  const leave = await Leave.findOne({ _id: req.body._id })
+    .populate("user", "nwi _id");
   if (!leave) return res.status(400).send("Invalid Leave");
 
   leave.status = req.body.status;
+  leave.updatedBy = req.user._id;
   await leave.save();
 
-  const notification = await Notification.create({
-    user: req.user._id,
+  await Notification.create({
+    user: leave.user._id,
     target: {
       type: "Leave",
       id: leave._id,
     },
-    message: `Leave on ${req.body.date} of ${req.user.nwi} has been ${req.body.status === "Approve" ? "approved" : "rejected"}.`,
+    receiver: "User",
+    message: `Leave on ${leave.date} of ${leave.user.nwi} has been ${req.body.status === "Approve" ? "approved" : "rejected"}.`,
   });
 
   res.send(JSON.stringify(leave));

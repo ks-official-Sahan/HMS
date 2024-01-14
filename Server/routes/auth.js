@@ -38,10 +38,8 @@ router.post("/admin", async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, admin.password);
   if (!validPassword) return res.status(400).send("Incorrect password");
 
-  // res.send(admin);
   const token = admin.generateAuthToken();
-  // res.header('x-auth-token', token).send(JSON.stringify(_.pick(admin, ['_id', 'email', 'mobile', 'fname', 'lname', 'password'])));
-  res.header('x-auth-token', token).send(JSON.stringify(token));
+  res.header('x-auth-token', token).send(token);
 });
 
 function validate(user) {

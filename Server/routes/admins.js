@@ -10,15 +10,15 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/", [auth, isAdmin], async (req, res) => {
-  const admin = await Admin.find()
-    .select("-password -_id -fname -lname -address._id -__v -registeredOn")
-    .populate("position", "-_id -__v");
-  if (!admin)
-    return res.status(400).send("Cannot find any admins with this Email");
+// router.get("/", [auth, isAdmin], async (req, res) => {
+//   const admin = await Admin.find()
+//     .select("-password -_id -fname -lname -address._id -__v -registeredOn")
+//     .populate("position", "-_id -__v");
+//   if (!admin)
+//     return res.status(400).send("Cannot find any admins with this Email");
 
-  res.send(JSON.stringify(admin));
-});
+//   res.send(JSON.stringify(admin));
+// });
 
 router.get("/admin", [auth, isAdmin], async (req, res) => {
   const admin = await Admin.findOne({ _id: req.user._id })

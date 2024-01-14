@@ -31,8 +31,9 @@ router.get("/:_id", auth, async (req, res) => {
 
 // get all claims (admin)
 router.post("/admin", [auth, admin], async (req, res) => {
-  const claims = await Claim.find()
-    .sort("-appliedOn -date")
+  const claims = await Claim.find({ date: { $gt: Date.now() } })
+    .sort({ date: 1, status: -1, appliedOn: 1 })
+    .populate("updatedBy", { nwi: 1, _id: 1 })
     .populate("user", { nwi: 1, _id: 1 });
 
   res.send(JSON.stringify(claims));
@@ -65,23 +66,22 @@ router.post("/", auth, async (req, res) => {
 });  
 
 // update a claim (admin)
-router.put("/:id", [auth, admin, _id], async (req, res) => {
-  const claim = await Claim.findOne({
-    _id: req.body._id,
-    userId: req.user._id,
-  }).populate("user", "nwi");
+router.put("/", [auth, admin, _id], async (req, res) => {
+  const claim = await Claim.findOne({ _id: req.body._id })
+    .populate("user", "nwi _id");
   if (!claim) return res.status(400).send("Invalid Claim");
 
   claim.status = req.body.status; //Approved or Rejected
+  claim.updatedBy = req.user._id;
   await claim.save();
 
   const notification = await Notification.create({
-    user: req.user._id,
+    user: claim.user._id,
     target: {
       type: "Claim",
       id: claim._id,
     },
-    message: `Claim on ${req.body.date} of ${req.user.nwi} has been ${req.body.status === "Approve" ? "approved" : "rejected"}.`,
+    message: `Claim on ${claim.date} of ${claim.user.nwi} has been ${req.body.status === "Approve" ? "approved" : "rejected"}.`,
   });
 
   res.send(JSON.stringify(claim));

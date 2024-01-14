@@ -15,7 +15,7 @@ const claimSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Types.ObjectId,
-    ref: "users",
+    ref: "User",
   },
   appliedOn: {
     type: Date,
@@ -25,10 +25,10 @@ const claimSchema = new mongoose.Schema({
     type: String,
     default: "Pending",
   },
-  // acceptedBy: {
-  //   type: mongoose.Types.ObjectId,
-  //   ref: "admins"
-  // }
+  updatedBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admin"
+  }
 });
 
 const Claim = mongoose.model("Claim", claimSchema);

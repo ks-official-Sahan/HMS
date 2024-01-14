@@ -93,11 +93,11 @@ const userSchema = new mongoose.Schema({
   status: {
     type: Boolean,
     default: true,
+  },
+  updatedBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admin"
   }
-  // isAdmin: {
-  //   type: Boolean,
-  //   default: false,
-  // }
 });
 
 userSchema.methods.generateAuthToken = function () {

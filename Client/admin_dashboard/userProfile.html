@@ -34,7 +34,7 @@
     />
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
   </head>
-  <body onload="loadProfile(); getNotificationCount();">
+  <body onload="loadUserProfile(); getNotificationCount();">
     <div class="wrapper">
       <!-- Side Bar -->
       <div class="sidebar" data-color="blue">
@@ -44,13 +44,13 @@
           </div>
 
           <ul class="nav">
-            <li>
+            <li class="active">
               <a href="dashboard.html">
                 <i class="pe-7s-graph"></i>
                 <p>Dashboard</p>
               </a>
             </li>
-            <li class="active">
+            <li>
               <a href="user.html">
                 <i class="pe-7s-user"></i>
                 <p>My Profile</p>
@@ -95,7 +95,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">My Profile</a>
+              <a class="navbar-brand" href="#">Manage User</a>
             </div>
             <div class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-left">
@@ -148,13 +148,25 @@
               <h3><strong id="name">Name:</strong></h3>
               <br />
               <div><strong>Email:</strong> <span id="email"></span></div>
-              <div><strong>First Name:</strong> <span id="fname"></span></div>
-              <div><strong>Last Name:</strong> <span id="lname"></span></div>
+              <div><strong>Date of Birth:</strong> <span id="dob"></span></div>
               <br />
               <h5>
                 <span><strong>Position</strong>:</span>
                 <span id="position"></span>
               </h5>
+              <div>
+                <strong>Department:</strong> <span id="department"></span>
+              </div>
+            </div>
+            <div>
+              <p id="updated"></p>
+              <button
+                id="btn"
+                class="deactivate-button"
+                onclick="changeUserStatus();"
+                type="button">
+                Deactivate User
+              </button>
             </div>
           </div>
           <!-- Left -->
@@ -165,6 +177,10 @@
               <!-- General -->
               <div>
                 <h3>Edit Details</h3>
+                <div>
+                  <span>Date of Birth</span>
+                  <input id="dob2" placeholder="Date of Birth" type="date" />
+                </div>
                 <div>
                   <span>Email</span>
                   <input id="email2" placeholder="Email" type="text" />
@@ -205,15 +221,58 @@
               </div>
               <!-- General -->
 
+              <!-- Employee -->
+              <div>
+                <h4>Employement</h4>
+                <select id="position2">
+                  <option value="0" selected disabled>Position</option>
+                </select>
+                <select id="department2">
+                  <option value="0" selected disabled>Department</option>
+                </select>
+              </div>
+              <!-- Employee -->
+
+              <!-- Address -->
+              <div>
+                <h4>Address</h4>
+                <input id="line1" placeholder="Line 1" type="text" />
+                <input id="line2" placeholder="Line 2" type="text" />
+                <div class="item-container">
+                  <input
+                    id="line3"
+                    class="item"
+                    placeholder="Line 3"
+                    type="text"
+                  />
+                  <input
+                    id="zipcode"
+                    class="item"
+                    placeholder="Zip Code"
+                    type="text"
+                  />
+                </div>
+                <select id="province">
+                  <option value="0" selected disabled>Province</option>
+                </select>
+              </div>
+              <!-- Address -->
+
               <br />
               <div class="container">
-                <button onclick="updateProfile();">Update Profile</button>
+                <button onclick="updateUserProfile();">Update Profile</button>
               </div>
             </div>
           </div>
           <!-- Right -->
         </div>
+        <!-- Profile -->
 
+        <div class="comment-container">
+          <h3>Health Status Records</h3>
+          <hr />
+          <ul class="comment-list" id="comment-list"></ul>
+        </div>
         <!-- Content -->
       </div>
     </div>

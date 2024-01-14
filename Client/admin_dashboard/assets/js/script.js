@@ -15,71 +15,30 @@ function setMaxDateToday() {
 /*   Token   */
 function getToken() {
   try {
-    return window.sessionStorage.getItem("hms_user");
+    return window.sessionStorage.getItem("hms_admin");
   } catch (err) {
     alert(
       "Couldn't get the Session. Please login. (Try update your web browser)",
       err.message
     );
-    window.location = "../login.html";
+    window.location = "../adminLogin.html";
   }
 }
 
 function logout() {
   try {
-    window.sessionStorage.removeItem("hms_user");
-    window.location = "../login.html";
+    window.sessionStorage.removeItem("hms_admin");
+    window.location = "../adminLogin.html";
   } catch (error) {
     alert(
       "Couldn't access the Session. Please login. (Try update your web browser)",
       err.message
     );
-    window.location = "../login.html";
+    window.location = "../adminLogin.html";
   }
 }
 
 /*   Health Status   */
-
-function addStatus() {
-  const description = document.getElementById("description");
-  const date = document.getElementById("date");
-  const list = document.getElementById("comment-list");
-
-  if (description.value.trim() !== "" && date.value.trim() !== "") {
-    const data = {
-      date: date.value,
-      description: description.value,
-    };
-
-    const jsonData = JSON.stringify(data);
-
-    const request = new XMLHttpRequest();
-
-    request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        const res = request.responseText;
-        if (request.status === 200) {
-          // window.location.reload();
-          loadStatus();
-
-          description.value = "";
-          date.value = "";
-        } else {
-          console.log("Bad Request", request.status, res);
-          alert(res);
-          if (request.status === 401) {
-            window.location = "../login.html";
-          }
-        }
-      }
-    };
-
-    request.open("POST", "http://localhost:3000/api/status/");
-    request.setRequestHeader("Content-Type", "application/json");
-    request.setRequestHeader("x-auth-token", getToken());
-    request.send(jsonData);
-  }
-}
 
 function loadStatus() {
   const list = document.getElementById("comment-list");
@@ -108,96 +67,143 @@ function loadStatus() {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
   };
 
-  request.open("GET", "http://localhost:3000/api/status/user");
+  request.open(
+    "GET",
+    "http://localhost:3000/api/status/" + window.sessionStorage.getItem("user")
+  );
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
 }
 
 /* Create Items */
 
-function createItems(resObj) {
-  const list = document.getElementById("comment-list");
+function createItems(resObj, type) {
+  const list = document.getElementById("item-list");
   list.innerHTML = "";
 
   for (var obj of resObj) {
-    const div = document.createElement("div");
+    const item = document.createElement("div");
+    item.className = "request";
 
-    const status = document.createElement("span");
-    status.textContent = "Status : " + obj.status;
-    div.append(status);
+    const info = document.createElement("div");
+    info.className = "employee-info";
 
-    const dateTxt = document.createElement("span");
-    dateTxt.textContent = formatDate(obj.date);
-    div.append(dateTxt);
+    const img = document.createElement("img");
+    img.src =
+      "https://imgv3.fotor.com/images/gallery/Realistic-Male-Profile-Picture.jpg";
+    img.alt = "Employee Profile Picture";
 
-    const p = document.createElement("p");
-    p.textContent = obj.description;
+    const details = document.createElement("div");
+    details.className = "employee-details";
 
-    const li = document.createElement("li");
-    // li.className = obj.status === "Approved" ? "comment approved" : (obj.status === "Rejected" ? "comment rejected" : "comment");
-    li.className = `comment ${
-      obj.status === "Approved"
-        ? " approved"
-        : obj.status === "Rejected"
-        ? " rejected"
-        : ""
-    }`;
-    li.appendChild(p);
-    li.appendChild(div);
+    const name = document.createElement("p");
+    name.textContent = `Name: ${obj.user.nwi}`;
+    const id = document.createElement("p");
+    id.textContent = `ID: ${obj.user._id}`;
 
-    list.append(li);
+    details.appendChild(name);
+    details.appendChild(id);
+
+    info.appendChild(img);
+    info.appendChild(details);
+
+    const section = document.createElement("div");
+    section.className = "item";
+
+    const date = document.createElement("p");
+    date.textContent = `Date: ${formatDate(obj.date)}`;
+    const description = document.createElement("p");
+    description.textContent = `${
+      type === "Leave" ? "Reason for leave" : "Claim description"
+    }: ${obj.description}`;
+
+    section.appendChild(description);
+    section.appendChild(date);
+
+    const buttons = document.createElement("div");
+    buttons.className = "action-buttons";
+
+    if (obj.status === "Pending") {
+      const accept = document.createElement("button");
+      accept.className = "accept";
+      accept.textContent = "Accept";
+      accept.setAttribute("onclick", `acceptItem('${type}', '${obj._id}')`);
+
+      const decline = document.createElement("button");
+      decline.className = "decline";
+      decline.textContent = "Decline";
+      decline.setAttribute("onclick", `declineItem('${type}', '${obj._id}')`);
+
+      buttons.appendChild(accept);
+      buttons.appendChild(decline);
+    } else {
+      item.className = `${
+        obj.status === "Approve" ? "approved" : "rejected"
+      } request`;
+
+      const updated = document.createElement("button");
+      updated.className = `${
+        obj.status === "Approve" ? "accept" : "decline"
+      } updated`;
+      updated.textContent = `${
+        obj.status === "Approve" ? "Approved" : "Rejected"
+      } by ${obj.updatedBy.nwi}`;
+      buttons.appendChild(updated);
+    }
+
+    item.appendChild(info);
+    item.appendChild(section);
+    item.appendChild(buttons);
+
+    list.append(item);
   }
+}
+
+function acceptItem(type, _id) {
+  if (type === "Leave") return updateLeave(_id, "Approve");
+  updateClaim(_id, "Approve");
+}
+
+function declineItem(type, _id) {
+  if (type === "Leave") return updateLeave(_id, "Reject");
+  updateClaim(_id, "Reject");
 }
 
 /*   Claims   */
 
-function addClaim() {
-  const description = document.getElementById("description");
-  const date = document.getElementById("date");
+function updateClaim(_id, status) {
+  const jsonData = JSON.stringify({
+    _id: _id,
+    status: status,
+  });
 
-  if (description.value.trim() !== "" && date.value.trim() !== "") {
-    const data = {
-      date: date.value,
-      description: description.value,
-    };
+  const request = new XMLHttpRequest();
 
-    const jsonData = JSON.stringify(data);
-
-    const request = new XMLHttpRequest();
-
-    request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        const res = request.responseText;
-        if (request.status === 200) {
-          // let resObj = JSON.parse(res);
-          // createItems(resObj);
-
-          // window.location.reload();
-          loadClaims();
-
-          description.value = "";
-          date.value = "";
-        } else {
-          console.log("Bad Request", request.status, res);
-          alert(res);
-          if (request.status === 401) {
-            window.location = "../login.html";
-          }
+  request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+      const res = request.responseText;
+      if (request.status === 200) {
+        loadClaims();
+      } else {
+        console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../adminLogin.html";
         }
       }
-    };
+    }
+  };
 
-    request.open("POST", "http://localhost:3000/api/claims/");
-    request.setRequestHeader("Content-Type", "application/json");
-    request.setRequestHeader("x-auth-token", getToken());
-    request.send(jsonData);
-  }
+  request.open("PUT", "http://localhost:3000/api/claims/");
+  request.setRequestHeader("Content-Type", "application/json");
+  request.setRequestHeader("x-auth-token", getToken());
+  request.send(jsonData);
 }
 
 function loadClaims() {
@@ -209,65 +215,51 @@ function loadClaims() {
       if (request.status === 200) {
         let resObj = JSON.parse(res);
 
-        createItems(resObj);
+        createItems(resObj, "Claim");
       } else {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
   };
 
-  request.open("GET", "http://localhost:3000/api/claims/user");
+  request.open("POST", "http://localhost:3000/api/claims/admin");
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
 }
 
 /*   Leaves   */
 
-function addLeave() {
-  const description = document.getElementById("description");
-  const date = document.getElementById("date");
+function updateLeave(_id, status) {
+  const jsonData = JSON.stringify({
+    _id: _id,
+    status: status,
+  });
 
-  if (description.value.trim() !== "" && date.value.trim() !== "") {
-    const data = {
-      date: date.value,
-      description: description.value,
-    };
+  const request = new XMLHttpRequest();
 
-    const jsonData = JSON.stringify(data);
-
-    const request = new XMLHttpRequest();
-
-    request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        const res = request.responseText;
-        if (request.status === 200) {
-          // let resObj = JSON.parse(res);
-          // createItems(resObj);
-
-          // window.location.reload();
-          loadLeaves();
-
-          description.value = "";
-          date.value = "";
-        } else {
-          console.log("Bad Request", request.status, res);
-          alert(res);
-          if (request.status === 401) {
-            window.location = "../login.html";
-          }
+  request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+      const res = request.responseText;
+      if (request.status === 200) {
+        loadLeaves();
+      } else {
+        console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../adminLogin.html";
         }
       }
-    };
+    }
+  };
 
-    request.open("POST", "http://localhost:3000/api/leaves/");
-    request.setRequestHeader("Content-Type", "application/json");
-    request.setRequestHeader("x-auth-token", getToken());
-    request.send(jsonData);
-  }
+  request.open("PUT", "http://localhost:3000/api/leaves/");
+  request.setRequestHeader("Content-Type", "application/json");
+  request.setRequestHeader("x-auth-token", getToken());
+  request.send(jsonData);
 }
 
 function loadLeaves() {
@@ -279,18 +271,18 @@ function loadLeaves() {
       if (request.status === 200) {
         let resObj = JSON.parse(res);
 
-        createItems(resObj);
+        createItems(resObj, "Leave");
       } else {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
   };
 
-  request.open("GET", "http://localhost:3000/api/leaves/user");
+  request.open("POST", "http://localhost:3000/api/leaves/admin");
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
 }
@@ -314,13 +306,13 @@ function getNotificationCount() {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
   };
 
-  request.open("GET", "http://localhost:3000/api/notifications/count/user");
+  request.open("GET", "http://localhost:3000/api/notifications/count/admin");
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
 }
@@ -359,7 +351,7 @@ function loadNotifications(isLimit) {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
@@ -367,7 +359,7 @@ function loadNotifications(isLimit) {
 
   request.open(
     "GET",
-    `http://localhost:3000/api/notifications/user${isLimit ? "?limit=5" : ""}`
+    `http://localhost:3000/api/notifications/admin${isLimit ? "?limit=5" : ""}`
   );
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
@@ -393,6 +385,13 @@ function createNotificationItems(resObj) {
 
     const li = document.createElement("li");
     li.className = obj.seen ? "notifications seen" : "notifications";
+    li.classList.add(!obj.seen && obj.receiver === "User" ? "user" : "admin");
+    li.setAttribute(
+      "onclick",
+      `window.location = '${
+        obj.target.type === "Claim" ? "claim.html" : "leave.html"
+      }'`
+    );
     li.appendChild(p);
     li.appendChild(div);
 
@@ -412,19 +411,22 @@ function updateSeen() {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
   };
 
-  request.open("PUT", "http://localhost:3000/api/notifications/user");
+  request.open("PUT", "http://localhost:3000/api/notifications/admin");
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
 }
 
-/* Profile */
-function loadProfile() {
+/* Users */
+function loadUsers() {
+  if (window.sessionStorage.getItem("user"))
+    window.sessionStorage.removeItem("user");
+
   const request = new XMLHttpRequest();
 
   request.onreadystatechange = function () {
@@ -433,12 +435,90 @@ function loadProfile() {
       if (request.status === 200) {
         let resObj = JSON.parse(res);
 
-        document.getElementById("name").textContent = `Name: ${resObj.nwi}`;
+        const container = document.getElementById("container");
+        container.innerHTML = "";
+
+        for (var obj of resObj) {
+          const profile = document.createElement("div");
+          profile.className = !obj.status ? "profile rejected" : "profile";
+
+          const img = document.createElement("img");
+          img.src =
+            "https://imgv3.fotor.com/images/gallery/Realistic-Male-Profile-Picture.jpg";
+          img.alt = "Employee Profile Picture";
+
+          const name = document.createElement("h4");
+          name.textContent = obj.nwi;
+
+          const div = document.createElement("div");
+          const email = document.createElement("p");
+          email.textContent = obj.email;
+          const position = document.createElement("p");
+          position.textContent = obj.position.name;
+          const department = document.createElement("p");
+          department.textContent = obj.department.name;
+
+          div.appendChild(email);
+          div.appendChild(position);
+          div.appendChild(department);
+
+          const button = document.createElement("button");
+          button.textContent = "View";
+          button.setAttribute("onclick", `openUserProfile('${obj._id}')`);
+          button.className = "reject";
+
+          profile.appendChild(img);
+          profile.appendChild(name);
+          profile.appendChild(div);
+          profile.appendChild(button);
+
+          container.appendChild(profile);
+        }
+      } else {
+        console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../adminLogin.html";
+        }
+      }
+    }
+  };
+
+  request.open("GET", "http://localhost:3000/api/users/");
+  request.setRequestHeader("x-auth-token", getToken());
+  request.send();
+}
+
+function openUserProfile(_id) {
+  window.sessionStorage.setItem("user", _id);
+  window.location = "userProfile.html";
+}
+
+function loadUserProfile() {
+  const request = new XMLHttpRequest();
+
+  request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+      const res = request.responseText;
+      if (request.status === 200) {
+        let resObj = JSON.parse(res);
+
+        document.getElementById("name").textContent = resObj.nwi;
         document.getElementById("email").textContent = resObj.email;
         document.getElementById("dob").textContent = resObj.dob;
         document.getElementById("position").textContent = resObj.position.name;
         document.getElementById("department").textContent =
           resObj.department.name;
+
+        const btn = document.getElementById("btn");
+        // btn.setAttribute("onclick", "changeUserStatus();");
+        if (!resObj.status) {
+          document.getElementById("left-column").classList.add("deactive");
+          btn.className = "save-button";
+          btn.textContent = "Activate User";
+          document.getElementById('updated').textContent = `Deactivated by ${resObj.updatedBy.nwi}`;
+        }
+        document.getElementById("dob2").value = resObj.dob;
         document.getElementById("email2").value = resObj.email;
         document.getElementById("mobile").value = resObj.mobile;
 
@@ -448,25 +528,34 @@ function loadProfile() {
         document.getElementById("line3").value = aObj.line3;
         document.getElementById("zipcode").value = aObj.zipcode;
 
-        loadProvinces(aObj.province.name);
+        loadStatics({
+          province: aObj.province.name,
+          position: resObj.position.name,
+          department: resObj.department.name,
+        });
+
+        loadStatus();
       } else {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
   };
 
-  request.open("GET", "http://localhost:3000/api/users/user");
+  request.open(
+    "GET",
+    `http://localhost:3000/api/users/user/${window.sessionStorage.getItem(
+      "user"
+    )}`
+  );
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
 }
 
-function loadProvinces(selectedProvince) {
-  province = document.getElementById("province");
-
+function loadStatics(selected) {
   const request = new XMLHttpRequest();
 
   request.onreadystatechange = function () {
@@ -475,30 +564,51 @@ function loadProvinces(selectedProvince) {
       if (request.status == 200) {
         let resObj = JSON.parse(res);
 
-        for (var obj of resObj) {
-          var option = document.createElement("option");
-          option.value = obj._id;
-          option.innerText = obj.name;
-          if (obj.name === selectedProvince) option.selected = true;
-          province.append(option);
-        }
+        Object.keys(resObj).forEach((key) => {
+          let tag = document.getElementById(
+            `${
+              key === "provinces"
+                ? "province"
+                : key === "positions"
+                ? "position2"
+                : "department2"
+            }`
+          );
+          let value =
+            key === "provinces"
+              ? selected.province
+              : key === "positions"
+              ? selected.position
+              : selected.department;
+          for (var obj of resObj[key]) {
+            var option = document.createElement("option");
+            option.value = obj._id;
+            option.innerText = obj.name;
+            if (obj.name === value) option.selected = true;
+            tag.append(option);
+          }
+        });
       } else {
         console.log("Bad Request", request.status, res);
       }
     }
   };
 
-  request.open("GET", "http://localhost:3000/api/statics/province");
+  request.open("GET", "http://localhost:3000/api/statics/user");
   request.send();
 }
 
-function updateProfile() {
+function updateUserProfile() {
+  const oPassword = document.getElementById("oPassword");
   const password = document.getElementById("password");
   const cPassword = document.getElementById("cPassword");
 
   const data = {
     email: document.getElementById("email2").value,
     mobile: document.getElementById("mobile").value,
+    dob: document.getElementById("dob2").value,
+    position: document.getElementById("position2").value,
+    department: document.getElementById("department2").value,
     address: {
       line1: document.getElementById("line1").value,
       line2: document.getElementById("line2").value,
@@ -508,8 +618,9 @@ function updateProfile() {
     },
   };
 
-  if (password.value.trim() !== "") {
+  if (oPassword.value.trim() !== "" && password.value.trim() !== "") {
     if (password.value.trim() === cPassword.value.trim()) {
+      data.oPassword = oPassword.value;
       data.password = password.value;
       data.cPassword = cPassword.value;
     } else {
@@ -525,9 +636,74 @@ function updateProfile() {
     if (request.readyState === 4) {
       const res = request.responseText;
       if (request.status === 200) {
-        // let resObj = JSON.parse(res);
-
         window.location.reload();
+      } else {
+        console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../adminLogin.html";
+        }
+      }
+    }
+  };
+
+  request.open(
+    "PUT",
+    `http://localhost:3000/api/users/user/${window.sessionStorage.getItem(
+      "user"
+    )}`
+  );
+  request.setRequestHeader("content-type", "application/json");
+  request.setRequestHeader("x-auth-token", getToken());
+  request.send(jsonData);
+}
+
+function changeUserStatus() {
+  const request = new XMLHttpRequest();
+
+  request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+      const res = request.responseText;
+      if (request.status === 200) {
+        window.location.reload();
+      } else {
+        console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../adminLogin.html";
+        }
+      }
+    }
+  };
+
+  request.open(
+    "PUT",
+    `http://localhost:3000/api/users/user/${window.sessionStorage.getItem(
+      "user"
+    )}`
+  );
+  request.setRequestHeader("content-type", "application/json");
+  request.setRequestHeader("x-auth-token", getToken());
+  request.send(JSON.stringify({ updateStatus: true }));
+}
+
+
+/* Profile */
+function loadProfile() {
+  const request = new XMLHttpRequest();
+
+  request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+      const res = request.responseText;
+      if (request.status === 200) {
+        let resObj = JSON.parse(res);
+
+        document.getElementById("name").textContent = resObj.nwi;
+        document.getElementById("email").textContent = resObj.email;
+        document.getElementById("position").textContent = resObj.position.name;
+        document.getElementById("email2").value = resObj.email;
+        document.getElementById("mobile").value = resObj.mobile;
+
       } else {
         console.log("Bad Request", request.status, res);
         alert(res);
@@ -538,8 +714,8 @@ function updateProfile() {
     }
   };
 
-  request.open("PUT", "http://localhost:3000/api/users/user");
-  request.setRequestHeader("content-type", "application/json");
+  request.open("GET", "http://localhost:3000/api/admins/admin");
   request.setRequestHeader("x-auth-token", getToken());
-  request.send(jsonData);
+  request.send();
 }
+ 
