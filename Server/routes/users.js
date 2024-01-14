@@ -33,7 +33,7 @@ router.get("/user/:_id", [auth, admin], async (req, res) => {
 
 async function getUser(res, id) {
   const user = await User.findOne({ _id: id })
-    .select("-password -_id -fname -lname -address._id -__v -registeredOn")
+    .select("-password -_id -address._id -__v -registeredOn")
     .populate("position", "-_id -__v")
     .populate("department", "-_id -__v")
     .populate("updatedBy", "-__v")
@@ -139,7 +139,7 @@ async function updateUser(req, res, user) {
       .status(400)
       .send(
         `${
-          isUser[0].email == req.body.email ? "Email" : "Phone Number"
+          user[0].email == req.body.email ? "Email" : "Phone Number"
         } is already used`
       );
 

@@ -433,7 +433,9 @@ function loadProfile() {
       if (request.status === 200) {
         let resObj = JSON.parse(res);
 
-        document.getElementById("name").textContent = `Name: ${resObj.nwi}`;
+        document.getElementById("name").textContent = resObj.nwi;
+        document.getElementById("fname").textContent = resObj.fname;
+        document.getElementById("lname").textContent = resObj.lname;
         document.getElementById("email").textContent = resObj.email;
         document.getElementById("dob").textContent = resObj.dob;
         document.getElementById("position").textContent = resObj.position.name;

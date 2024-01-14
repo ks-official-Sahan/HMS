@@ -98,16 +98,10 @@ function validateAdmin(admin) {
 }
 
 function validateAdminUpdate(admin) {
-  if (admin.password.trim() !== admin.cPassword.trim()) return ("Passwords doesn't match");
 
   const schema = Joi.object({
-    position: Joi.objectId(),
     mobile: Joi.string().min(9).max(14),
     email: Joi.string().min(5).max(255).email(),
-    password: Joi.string()
-      .min(4)
-      .max(255)
-      .regex(/^[a-zA-Z0-9]{3,30}$/),
   });
 
   return schema.validate(admin);

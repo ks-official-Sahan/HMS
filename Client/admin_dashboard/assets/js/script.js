@@ -504,6 +504,8 @@ function loadUserProfile() {
         let resObj = JSON.parse(res);
 
         document.getElementById("name").textContent = resObj.nwi;
+        document.getElementById("fname").textContent = resObj.fname;
+        document.getElementById("lname").textContent = resObj.lname;
         document.getElementById("email").textContent = resObj.email;
         document.getElementById("dob").textContent = resObj.dob;
         document.getElementById("position").textContent = resObj.position.name;
@@ -590,6 +592,10 @@ function loadStatics(selected) {
         });
       } else {
         console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../adminLogin.html";
+        }
       }
     }
   };
@@ -699,6 +705,8 @@ function loadProfile() {
         let resObj = JSON.parse(res);
 
         document.getElementById("name").textContent = resObj.nwi;
+        document.getElementById("fname").textContent = resObj.fname;
+        document.getElementById("lname").textContent = resObj.lname;
         document.getElementById("email").textContent = resObj.email;
         document.getElementById("position").textContent = resObj.position.name;
         document.getElementById("email2").value = resObj.email;
@@ -708,7 +716,7 @@ function loadProfile() {
         console.log("Bad Request", request.status, res);
         alert(res);
         if (request.status === 401) {
-          window.location = "../login.html";
+          window.location = "../adminLogin.html";
         }
       }
     }
@@ -717,5 +725,52 @@ function loadProfile() {
   request.open("GET", "http://localhost:3000/api/admins/admin");
   request.setRequestHeader("x-auth-token", getToken());
   request.send();
+}
+
+function updateProfile() {
+  const oPassword = document.getElementById("oPassword");
+  const password = document.getElementById("password");
+  const cPassword = document.getElementById("cPassword");
+
+  const data = {
+    email: document.getElementById("email2").value,
+    mobile: document.getElementById("mobile").value,
+  };
+
+  if (oPassword.value.trim() !== "" && password.value.trim() !== "") {
+    if (password.value.trim() === cPassword.value.trim()) {
+      data.oPassword = oPassword.value;
+      data.password = password.value;
+      data.cPassword = cPassword.value;
+    } else {
+      return alert("Passwords doesn't match");
+    }
+  }
+
+  const jsonData = JSON.stringify(data);
+
+  const request = new XMLHttpRequest();
+
+  request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+      const res = request.responseText;
+      if (request.status === 200) {
+        // let resObj = JSON.parse(res);
+
+        window.location.reload();
+      } else {
+        console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../adminLogin.html";
+        }
+      }
+    }
+  };
+
+  request.open("PUT", "http://localhost:3000/api/admins/");
+  request.setRequestHeader("content-type", "application/json");
+  request.setRequestHeader("x-auth-token", getToken());
+  request.send(jsonData);
 }
  

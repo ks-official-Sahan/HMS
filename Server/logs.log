@@ -4483,3 +4483,88 @@
 {"level":"info","message":"MongoDB Connected..."}
 {"level":"info","message":"Health Management System is listening on port 3000!"}
 {"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"date":"Sun Jan 14 2024 17:26:29 GMT+0530 (India Standard Time)","error":{},"exception":true,"level":"error","message":"uncaughtException: missing ) after argument list\nD:\\Programming\\Health Management system\\Server\\routes\\admins.js:88\n  }\n  ^\n\nSyntaxError: missing ) after argument list\n    at internalCompileFunction (node:internal/vm:73:18)\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\n    at Module._load (node:internal/modules/cjs/loader:960:12)\n    at Module.require (node:internal/modules/cjs/loader:1143:19)\n    at require (node:internal/modules/cjs/helpers:121:18)\n    at Object.<anonymous> (D:\\Programming\\Health Management system\\Server\\startup\\routes.js:5:16)\n    at Module._compile (node:internal/modules/cjs/loader:1256:14)","os":{"loadavg":[0,0,0],"uptime":114847.875},"process":{"argv":["C:\\Program Files\\nodejs\\node.exe","D:\\Programming\\Health Management system\\Server\\index.js"],"cwd":"D:\\Programming\\Health Management system\\Server","execPath":"C:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":19170885,"external":20111829,"heapTotal":58511360,"heapUsed":30936376,"rss":78618624},"pid":289352,"uid":null,"version":"v18.17.1"},"stack":"D:\\Programming\\Health Management system\\Server\\routes\\admins.js:88\n  }\n  ^\n\nSyntaxError: missing ) after argument list\n    at internalCompileFunction (node:internal/vm:73:18)\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\n    at Module._load (node:internal/modules/cjs/loader:960:12)\n    at Module.require (node:internal/modules/cjs/loader:1143:19)\n    at require (node:internal/modules/cjs/helpers:121:18)\n    at Object.<anonymous> (D:\\Programming\\Health Management system\\Server\\startup\\routes.js:5:16)\n    at Module._compile (node:internal/modules/cjs/loader:1256:14)","trace":[{"column":18,"file":"node:internal/vm","function":"internalCompileFunction","line":73,"method":null,"native":false},{"column":20,"file":"node:internal/modules/cjs/loader","function":"wrapSafe","line":1178,"method":null,"native":false},{"column":27,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1220,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Module._extensions..js","line":1310,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1119,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module._load","line":960,"method":"_load","native":false},{"column":19,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1143,"method":"require","native":false},{"column":18,"file":"node:internal/modules/cjs/helpers","function":"require","line":121,"method":null,"native":false},{"column":16,"file":"D:\\Programming\\Health Management system\\Server\\startup\\routes.js","function":null,"line":5,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1256,"method":"_compile","native":false}]}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"date":"Sun Jan 14 2024 17:26:35 GMT+0530 (India Standard Time)","error":{},"exception":true,"level":"error","message":"uncaughtException: Identifier 'salt' has already been declared\nD:\\Programming\\Health Management system\\Server\\routes\\admins.js:81\n      const salt = await bcrypt.genSalt(12);\n            ^\n\nSyntaxError: Identifier 'salt' has already been declared\n    at internalCompileFunction (node:internal/vm:73:18)\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\n    at Module._load (node:internal/modules/cjs/loader:960:12)\n    at Module.require (node:internal/modules/cjs/loader:1143:19)\n    at require (node:internal/modules/cjs/helpers:121:18)\n    at Object.<anonymous> (D:\\Programming\\Health Management system\\Server\\startup\\routes.js:5:16)\n    at Module._compile (node:internal/modules/cjs/loader:1256:14)","os":{"loadavg":[0,0,0],"uptime":114853.921},"process":{"argv":["C:\\Program Files\\nodejs\\node.exe","D:\\Programming\\Health Management system\\Server\\index.js"],"cwd":"D:\\Programming\\Health Management system\\Server","execPath":"C:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":19143640,"external":20084584,"heapTotal":57987072,"heapUsed":31093976,"rss":78602240},"pid":286056,"uid":null,"version":"v18.17.1"},"stack":"D:\\Programming\\Health Management system\\Server\\routes\\admins.js:81\n      const salt = await bcrypt.genSalt(12);\n            ^\n\nSyntaxError: Identifier 'salt' has already been declared\n    at internalCompileFunction (node:internal/vm:73:18)\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\n    at Module._load (node:internal/modules/cjs/loader:960:12)\n    at Module.require (node:internal/modules/cjs/loader:1143:19)\n    at require (node:internal/modules/cjs/helpers:121:18)\n    at Object.<anonymous> (D:\\Programming\\Health Management system\\Server\\startup\\routes.js:5:16)\n    at Module._compile (node:internal/modules/cjs/loader:1256:14)","trace":[{"column":18,"file":"node:internal/vm","function":"internalCompileFunction","line":73,"method":null,"native":false},{"column":20,"file":"node:internal/modules/cjs/loader","function":"wrapSafe","line":1178,"method":null,"native":false},{"column":27,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1220,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Module._extensions..js","line":1310,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1119,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module._load","line":960,"method":"_load","native":false},{"column":19,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1143,"method":"require","native":false},{"column":18,"file":"node:internal/modules/cjs/helpers","function":"require","line":121,"method":null,"native":false},{"column":16,"file":"D:\\Programming\\Health Management system\\Server\\startup\\routes.js","function":null,"line":5,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1256,"method":"_compile","native":false}]}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"date":"Sun Jan 14 2024 17:27:41 GMT+0530 (India Standard Time)","error":{},"exception":true,"level":"error","message":"uncaughtException: Unexpected token '.'\nD:\\Programming\\Health Management system\\Server\\routes\\admins.js:65\n      { _id: { $ne: ._id } },\n                    ^\n\nSyntaxError: Unexpected token '.'\n    at internalCompileFunction (node:internal/vm:73:18)\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\n    at Module._load (node:internal/modules/cjs/loader:960:12)\n    at Module.require (node:internal/modules/cjs/loader:1143:19)\n    at require (node:internal/modules/cjs/helpers:121:18)\n    at Object.<anonymous> (D:\\Programming\\Health Management system\\Server\\startup\\routes.js:5:16)\n    at Module._compile (node:internal/modules/cjs/loader:1256:14)","os":{"loadavg":[0,0,0],"uptime":114920.093},"process":{"argv":["C:\\Program Files\\nodejs\\node.exe","D:\\Programming\\Health Management system\\Server\\index.js"],"cwd":"D:\\Programming\\Health Management system\\Server","execPath":"C:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":19189639,"external":20130583,"heapTotal":57987072,"heapUsed":31048920,"rss":78602240},"pid":286676,"uid":null,"version":"v18.17.1"},"stack":"D:\\Programming\\Health Management system\\Server\\routes\\admins.js:65\n      { _id: { $ne: ._id } },\n                    ^\n\nSyntaxError: Unexpected token '.'\n    at internalCompileFunction (node:internal/vm:73:18)\n    at wrapSafe (node:internal/modules/cjs/loader:1178:20)\n    at Module._compile (node:internal/modules/cjs/loader:1220:27)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)\n    at Module.load (node:internal/modules/cjs/loader:1119:32)\n    at Module._load (node:internal/modules/cjs/loader:960:12)\n    at Module.require (node:internal/modules/cjs/loader:1143:19)\n    at require (node:internal/modules/cjs/helpers:121:18)\n    at Object.<anonymous> (D:\\Programming\\Health Management system\\Server\\startup\\routes.js:5:16)\n    at Module._compile (node:internal/modules/cjs/loader:1256:14)","trace":[{"column":18,"file":"node:internal/vm","function":"internalCompileFunction","line":73,"method":null,"native":false},{"column":20,"file":"node:internal/modules/cjs/loader","function":"wrapSafe","line":1178,"method":null,"native":false},{"column":27,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1220,"method":"_compile","native":false},{"column":10,"file":"node:internal/modules/cjs/loader","function":"Module._extensions..js","line":1310,"method":".js","native":false},{"column":32,"file":"node:internal/modules/cjs/loader","function":"Module.load","line":1119,"method":"load","native":false},{"column":12,"file":"node:internal/modules/cjs/loader","function":"Module._load","line":960,"method":"_load","native":false},{"column":19,"file":"node:internal/modules/cjs/loader","function":"Module.require","line":1143,"method":"require","native":false},{"column":18,"file":"node:internal/modules/cjs/helpers","function":"require","line":121,"method":null,"native":false},{"column":16,"file":"D:\\Programming\\Health Management system\\Server\\startup\\routes.js","function":null,"line":5,"method":null,"native":false},{"column":14,"file":"node:internal/modules/cjs/loader","function":"Module._compile","line":1256,"method":"_compile","native":false}]}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
+{"level":"info","message":"Health Management System is listening on port 3000!"}
+{"level":"info","message":"MongoDB Connected..."}
