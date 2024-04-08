@@ -7,8 +7,30 @@ function login() {
       email: username.value,
       password: password.value,
     };
-
+    
     const jsonData = JSON.stringify(data);
+
+    // fetch('http://localhost:3000/api/auth/user', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: jsonData
+    // })
+    //   .then(res => {
+    //     if (res.ok || res.status === 200) {
+    //       console.log('success')
+    //       return res.json();
+    //     } else if (res.status == 403) {
+    //       console.log('unauthorized')
+    //     } else {
+    //       console.log('unsuccess')
+    //     }
+    //   })
+    //   .then(data => console.log(data))
+    //   .catch(err => console.log(err.message))
+
+    
 
     const request = new XMLHttpRequest();
 

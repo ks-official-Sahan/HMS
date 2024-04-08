@@ -6,6 +6,7 @@ const _id = require("../middleware/_id");
 
 const express = require("express");
 const mongoose = require("mongoose");
+const { User } = require("../models/user");
 
 const router = express.Router();
 
@@ -31,7 +32,7 @@ router.get("/:_id", auth, async (req, res) => {
 
 // get all leaves (admin)
 router.post("/admin", [auth, admin], async (req, res) => {
-  const leaves = await Leave.find({date: {$gt: Date.now()}})
+  const leaves = await Leave.find({ date: { $gt: Date.now() } })
     .sort({ date: 1, status: -1, appliedOn: 1 })
     .populate("updatedBy", { nwi: 1, _id: 1 })
     .populate("user", { nwi: 1, _id: 1 });
@@ -41,7 +42,11 @@ router.post("/admin", [auth, admin], async (req, res) => {
 
 //request leave
 router.post("/", auth, async (req, res) => {
-  req.body.userId = req.user._id;
+  const user = await User.findOne({ _id: req.user_id });
+  if (user.availableLeaves === 0)
+    return res.status(400).send(`${user.nwi} has 0 leaves left for this year`);
+
+  req.body.userId = req.user._id; // to parse for validation
   const { error } = validateLeave(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -50,30 +55,51 @@ router.post("/", auth, async (req, res) => {
     description: req.body.description,
     user: req.user._id,
     // userId: req.body._id,
-  });  
+  });
+
+  // // check if the leave is a medical leave
+  // if (req.body.ifMedical) {
+  //   leave.ifMedical = true;
+  //   await leave.save();
+  // }
+
+  // // Update users available no.leaves, but it's better to update on leave status.
+  // user.availableLeaves -= 1;
+  // await user.save();
 
   await Notification.create({
     user: req.user._id,
-    receiver: 'Admin',
+    receiver: "Admin",
     target: {
       type: "Leave",
       id: leave._id,
-    },  
+    },
     message: `${req.user.nwi} has requested for a leave on ${req.body.date}`,
-  });  
+  });
 
   res.send(JSON.stringify([leave]));
-});  
+});
 
 // update a leave (admin)
 router.put("/", [auth, admin, _id], async (req, res) => {
-  const leave = await Leave.findOne({ _id: req.body._id })
-    .populate("user", "nwi _id");
+  const leave = await Leave.findOne({ _id: req.body._id }).populate(
+    "user",
+    "nwi _id"
+  );
   if (!leave) return res.status(400).send("Invalid Leave");
+
+  const user = await User.findOne({ _id: leave.user });
+  if (user.availableLeaves === 0)
+    return res.status(400).send(`${user.nwi} has 0 leaves left for this year`);
 
   leave.status = req.body.status;
   leave.updatedBy = req.user._id;
   await leave.save();
+
+  if (leave.status === "Approve") {
+    user.availableLeaves -= 1;
+    await user.save();
+  }
 
   await Notification.create({
     user: leave.user._id,
@@ -82,7 +108,9 @@ router.put("/", [auth, admin, _id], async (req, res) => {
       id: leave._id,
     },
     receiver: "User",
-    message: `Leave on ${leave.date} of ${leave.user.nwi} has been ${req.body.status === "Approve" ? "approved" : "rejected"}.`,
+    message: `Leave on ${leave.date} of ${leave.user.nwi} has been ${
+      req.body.status === "Approve" ? "approved" : "rejected"
+    }.`,
   });
 
   res.send(JSON.stringify(leave));

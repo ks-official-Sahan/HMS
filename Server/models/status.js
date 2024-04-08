@@ -15,7 +15,7 @@ const statusSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Types.ObjectId,
-    ref: "users",
+    ref: "User",
     required: true,
   },
   updatedOn: {

@@ -50,6 +50,17 @@
     flex-direction: column-reverse;
 }
 
+.msg-list {
+    width: 100%;
+    list-style: none;
+    padding: 30px;
+    margin: 0;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+}
+
 .notification-box,
 .comment-box {
     width: 100%;
@@ -122,3 +133,20 @@ button:hover {
 .rejected {
     background-color: #d2a7a722;
 }
+
+.admin {
+    background-color: #d2a7a722;
+    margin: 5%;
+    width: 90%;
+}
+
+.right {
+    background-color: #8ee9d24a;
+    margin-left: 10%;
+    width: 90%;
+}    
+
+.left {
+    width: 90%;
+}
+

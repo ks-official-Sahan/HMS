@@ -96,8 +96,12 @@ const userSchema = new mongoose.Schema({
   },
   updatedBy: {
     type: mongoose.Types.ObjectId,
-    ref: "Admin"
-  }
+    ref: "Admin",
+  },
+  availableLeaves: {
+    type: Number,
+    default: 9,
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {

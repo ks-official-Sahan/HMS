@@ -9,7 +9,7 @@ function formatDateTime(date) {
 }
 
 function setMaxDateToday() {
-  document.getElementById('date').max = formatDate(Date.now());
+  document.getElementById("date").max = formatDate(Date.now());
 }
 
 /*   Token   */
@@ -43,7 +43,6 @@ function logout() {
 function addStatus() {
   const description = document.getElementById("description");
   const date = document.getElementById("date");
-  const list = document.getElementById("comment-list");
 
   if (description.value.trim() !== "" && date.value.trim() !== "") {
     const data = {
@@ -392,7 +391,12 @@ function createNotificationItems(resObj) {
 
     const li = document.createElement("li");
     li.className = obj.seen ? "notifications seen" : "notifications";
-    li.setAttribute('onclick', `window.location = '${obj.target.type === "Claim" ? "claim.html" : "leave.html"}'`);
+    li.setAttribute(
+      "onclick",
+      `window.location = '${
+        obj.target.type === "Claim" ? "claim.html" : "leave.html"
+      }'`
+    );
     li.appendChild(p);
     li.appendChild(div);
 

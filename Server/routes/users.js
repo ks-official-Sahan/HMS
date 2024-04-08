@@ -43,6 +43,7 @@ async function getUser(res, id) {
   return JSON.stringify(user);
 }
 
+// Registering User
 router.post("/", async (req, res) => {
   const { error } = validateUser(req.body);
   if (error) return res.status(400).send(error.message);
@@ -75,6 +76,7 @@ router.post("/", async (req, res) => {
     );
 });
 
+// Updating User
 router.put("/user", auth, async (req, res) => {
   const { error } = validateUserUpdate(
     _.pick(req.body, ["address", "email", "mobile"])

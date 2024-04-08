@@ -21,14 +21,18 @@ const leaveSchema = new mongoose.Schema({
     type: Date,
     default: () => Date.now(),
   },
+  // ifMedical: {
+  //   type: Boolean,
+  //   default: false,
+  // },
   status: {
     type: String,
     default: "Pending",
   },
   updatedBy: {
     type: mongoose.Types.ObjectId,
-    ref: "Admin"
-  }
+    ref: "Admin",
+  },
 });
 
 const Leave = mongoose.model("Leave", leaveSchema);

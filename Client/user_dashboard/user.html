@@ -74,6 +74,12 @@
                 <p>Notifications</p>
               </a>
             </li>
+            <li>
+              <a href="community.html">
+                <i class="pe-7s-users"></i>
+                <p>Community Forum</p>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -138,25 +144,19 @@
               alt="Profile Picture"
             />
             <h3><strong id="name"></strong></h3>
-            <br/>
-            <p>
-              <strong>Email:</strong> <span id="email"></span>
-            </p>
-            <div>
-              <strong>First Name:</strong> <span id="fname"></span>
-            </div>
-            <div>
-              <strong>Last Name:</strong> <span id="lname"></span>
-            </div>
-            <div>
-              <strong>Date of Birth:</strong> <span id="dob"></span>
-            </div>
+            <br />
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <div><strong>First Name:</strong> <span id="fname"></span></div>
+            <div><strong>Last Name:</strong> <span id="lname"></span></div>
+            <div><strong>Date of Birth:</strong> <span id="dob"></span></div>
             <br />
             <h5>
               <strong>Position:</strong>
               <span id="position"></span>
             </h5>
-            <div><strong>Department:</strong> <span id="department"></span></div>
+            <div>
+              <strong>Department:</strong> <span id="department"></span>
+            </div>
           </div>
           <div class="right-column">
             <div class="edit-panel">
@@ -178,7 +178,7 @@
                   type="password"
                 />
               </div>
-            <div class="item-container">
+              <div class="item-container">
                 <div class="item">
                   <span>Password</span>
                   <input id="password" placeholder="Password" type="password" />
@@ -197,14 +197,24 @@
                 <input id="line1" placeholder="Line 1" type="text" />
                 <input id="line2" placeholder="Line 2" type="text" />
                 <div class="item-container">
-                    <input id="line3" class="item" placeholder="Line 3" type="text" />
-                    <input id="zipcode" class="item" placeholder="Zip Code" type="text" />
+                  <input
+                    id="line3"
+                    class="item"
+                    placeholder="Line 3"
+                    type="text"
+                  />
+                  <input
+                    id="zipcode"
+                    class="item"
+                    placeholder="Zip Code"
+                    type="text"
+                  />
                 </div>
                 <select id="province">
                   <option value="0" selected disabled>Province</option>
                 </select>
               </div>
-              <br/>
+              <br />
               <div class="container">
                 <button onclick="updateProfile();">Update Profile</button>
               </div>
