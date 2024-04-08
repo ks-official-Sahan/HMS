@@ -34,9 +34,14 @@ function displayMessage(obj, user) {
   const dateTxt = document.createElement("span");
   dateTxt.textContent = formatDateTime(obj.date);
   div.append(dateTxt);
+  
 
   const p = document.createElement("p");
   p.textContent = obj.message;
+
+  const _id = document.createElement('input');
+  _id.value = obj._id;
+  _id.className = 'd-none';
 
   let classes = `comment ${user === "Me" ? " right" : " left"} `;
   if (obj.user.isAdmin === true) classes = "comment admin";
@@ -45,6 +50,7 @@ function displayMessage(obj, user) {
   li.className = classes;
   li.appendChild(p);
   li.appendChild(div);
+  li.appendChild(_id);
 
   list.append(li);
   li.scrollIntoView({ smooth: true });

@@ -59,6 +59,26 @@
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.d-none {
+    display: none;
+}
+
+.status-box {
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.status-box p {
+    margin-bottom: 2px;
+}
+
+.stat-selector {
+    width: 30%;
+    min-width: 300px;
+    margin-bottom: 10px;
 }
 
 .notification-box,
@@ -136,17 +156,26 @@ button:hover {
 
 .admin {
     background-color: #d2a7a722;
-    margin: 5%;
-    width: 90%;
+    /* margin: 5%; */
+    align-self: center;
+    width: fit-content;
+    min-width: 10%;
+    max-width: 90%;
+}
+
+.left {
+    width: fit-content;
+    min-width: 10%;
+    max-width: 90%;
+    /* flex-direction: row; */
 }
 
 .right {
     background-color: #8ee9d24a;
     margin-left: 10%;
-    width: 90%;
-}    
-
-.left {
-    width: 90%;
+    width: fit-content;
+    min-width: 10%;
+    max-width: 90%;
+    align-self: flex-end;
+    /* flex-direction: row; */
 }
-

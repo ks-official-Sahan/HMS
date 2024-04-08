@@ -140,14 +140,110 @@
         <div class="comment-container">
           <ul class="comment-list" id="comment-list"></ul>
           <hr />
-          <div class="comment-box">
-            <input type="date" id="date" class="date-input" />
+          <div class="status-box">
+            <!-- New Structure -->
+            <ul>
+              <li>
+                <p>Do you currently have any health concerns or symptoms?</p>
+                <select class="stat-selector" id="stat1">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="Fever">Fever</option>
+                  <option value="Cough">Cough</option>
+                  <option value="Sugar">Sugar</option>
+                  <option value="Pressure">Pressure</option>
+                </select>
+              </li>
+              <li>
+                <p>Have you been diagnosed with any chronic health conditions recently?</p>
+                <select class="stat-selector" id="stat2">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </li>
+              <li>
+                <p>Are you taking any medication that may affect your ability to work?</p>
+                <select class="stat-selector" id="stat3">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </li>
+              <li>
+                <p>How would you rate your overall welbeing</p>
+                <select class="stat-selector" id="stat4">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="Excellent">Excellent</option>
+                  <option value="Good">Good</option>
+                  <option value="Fair">Fair</option>
+                  <option value="Poor">Poor</option>
+                </select>
+              </li>
+              <li>
+                <p>Have you been experiencing high levels of stress or anxiety lately?</p>
+                <select class="stat-selector" id="stat5">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="High">High</option>
+                  <option value="Moderate">Moderate</option>
+                  <option value="Low">Low</option>
+                </select>
+              </li>
+              <li>
+                <p>Are you getting sufficient sleep and rest</p>
+                <select class="stat-selector" id="stat6">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="7-9">7-9 hours</option>
+                  <option value="6-7">6-7 hours</option>
+                  <option value="5-6">5-6 hours</option>
+                  <option value="less">less than 5 hours</option>
+                </select>
+              </li>
+              <li>
+                <p>Are you experiencing any discomfort or pain related to your workstation setup?</p>
+                <select class="stat-selector" id="stat7">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </li>
+              <li>
+                <p>How often do you engage in physical activity and exercise during the week?</p>
+                <input class="stat-selector" id="stat8" type="text"/>
+              </li>
+              <li>
+                <p>Are you able to maintain healthy and balanced diet?</p>
+                <select class="stat-selector" id="stat9">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </li>
+              <li>
+                <p>Are you aware of the mental health resources and support available to you?</p>
+                <select class="stat-selector" id="stat10">
+                  <option value="0" disabled selected>Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </li>
+              <li>
+                <p>Have you utilized any mental health rosources provided by the company?</p>
+                <input class="stat-selector" id="stat11" type="text"/>
+              </li>
+              <li>
+                <p>Do you have any suggestions or feedback regarding the health check process or company support for employee well-being?</p>
+                <input class="stat-selector" id="stat12" type="text"/>
+              </li>
+            </ul>
+
+            <!-- Old Structure -->
+            <!-- <input type="date" id="date" class="date-input" />
             <textarea
               id="description"
               class="comment-input"
               placeholder="Write a health status"
-            ></textarea>
-            <button onclick="addStatus()">Submit</button>
+            ></textarea> -->
+            <button style="width: 50%; margin-left: 25%;" onclick="addStatus()">Submit</button>
           </div>
         </div>
         <!-- Content -->

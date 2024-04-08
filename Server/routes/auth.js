@@ -13,18 +13,19 @@ router.post("/user", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.message);
 
-    const user = await User.findOne({ email: req.body.email });
-    if (!user)
-      return res.status(400).send("Cannot find any users with this Email");
+  const user = await User.findOne({ email: req.body.email });
+  if (!user)
+    return res.status(400).send("Cannot find any users with this Email");
 
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) return res.status(400).send("Incorrect password");
+  const validPassword = await bcrypt.compare(req.body.password, user.password);
+  if (!validPassword) return res.status(400).send("Incorrect password");
 
-    if (!user.status) return res.status(401).send("Your account has been disabled");
+  if (!user.status)
+    return res.status(401).send("Your account has been disabled");
 
-    // res.send(user);
-    const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(token);
+  // res.send(user);
+  const token = user.generateAuthToken();
+  res.header("x-auth-token", token).send(token);
 });
 
 router.post("/admin", async (req, res) => {
@@ -39,7 +40,7 @@ router.post("/admin", async (req, res) => {
   if (!validPassword) return res.status(400).send("Incorrect password");
 
   const token = admin.generateAuthToken();
-  res.header('x-auth-token', token).send(token);
+  res.header("x-auth-token", token).send(token);
 });
 
 function validate(user) {
