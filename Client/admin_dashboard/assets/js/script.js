@@ -54,7 +54,7 @@ function loadStatus() {
 
         for (var obj of resObj) {
           const dateTxt = document.createElement("span");
-          dateTxt.textContent = formatDate(obj.date);
+          dateTxt.textContent = formatDateTime(obj.date);
 
           const li = document.createElement("li");
           li.className = "status";
@@ -146,9 +146,9 @@ function createItems(resObj, type) {
     section.className = "item";
 
     const date = document.createElement("p");
-    date.textContent = `Date: ${formatDate(obj.date)}`;
+    date.textContent = `Date: ${formatDateTime(obj.appliedOn)}`;
     const description = document.createElement("p");
-    description.textContent = `${
+    description.textContent = `${formatDate(obj.date)} - ${
       type === "Leave" ? "Reason for leave" : "Claim description"
     }: ${obj.description}`;
 

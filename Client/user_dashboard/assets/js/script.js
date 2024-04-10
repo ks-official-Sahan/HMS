@@ -46,8 +46,12 @@ function addStatus() {
   for (let i = 1; i <= 12; i++) {
     const stat = document.getElementById(`stat${i}`);
     if (stat.value == 0 || stat.value.trim() === "") {
-      stat.focus();
-      return alert(`Insufficient information. Update information on form ${i}`);
+      if (!(i === 8 || i === 11 || i === 12)) {
+        stat.focus();
+        return alert(
+          `Insufficient information. Update information on form ${i}`
+        );
+      }
     }
     data[`stat${i}`] = stat.value;
   }
@@ -97,7 +101,7 @@ function loadStatus() {
 
         for (var obj of resObj) {
           const dateTxt = document.createElement("span");
-          dateTxt.textContent = formatDate(obj.date);
+          dateTxt.textContent = formatDateTime(obj.date);
 
           const li = document.createElement("li");
           li.className = "status";
@@ -164,11 +168,11 @@ function createItems(resObj) {
     div.append(status);
 
     const dateTxt = document.createElement("span");
-    dateTxt.textContent = formatDate(obj.date);
+    dateTxt.textContent = formatDateTime(obj.appliedOn);
     div.append(dateTxt);
 
     const p = document.createElement("p");
-    p.textContent = obj.description;
+    p.textContent = `${formatDate(obj.date)}:  ${obj.description}`;
 
     const li = document.createElement("li");
     li.className = `comment ${
@@ -310,7 +314,10 @@ function loadLeaves() {
       if (request.status === 200) {
         let resObj = JSON.parse(res);
 
-        createItems(resObj);
+        createItems(resObj.leaves);
+        document.getElementById(
+          "availableLeavesCount"
+        ).textContent = `You have ${resObj.availableLeaves} leaves left to take.`;
       } else {
         console.log("Bad Request", request.status, res);
         alert(res);

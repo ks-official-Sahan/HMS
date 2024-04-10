@@ -16,7 +16,7 @@ const statusSchema = new mongoose.Schema({
   stat11: String,
   stat12: String,
   date: {
-    type: String,
+    type: Date,
     default: () => Date.now(),
   },
   user: {

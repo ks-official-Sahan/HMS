@@ -12,11 +12,14 @@ const router = express.Router();
 
 // get leaves for the relevant user
 router.get("/user", auth, async (req, res) => {
+  const user = await User.findById(req.user._id).select({ availableLeaves: 1 });
+
   const leaves = await Leave.find({ user: req.user._id })
     .sort({ appliedOn: -1, date: -1 })
     .select("-user -_id -__v")
     .limit(10);
-  res.send(JSON.stringify(leaves));
+
+  res.send(JSON.stringify({ leaves, availableLeaves: user.availableLeaves }));
 });
 
 // get detail about relevant leave

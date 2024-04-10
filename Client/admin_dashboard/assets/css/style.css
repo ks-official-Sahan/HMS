@@ -230,10 +230,6 @@ button:hover {
     background-color: #389876;
 }
 
-.status {
-    flex-direction: row;
-}
-
 .user {
     background-color: rgb(222, 246, 252);
 }
