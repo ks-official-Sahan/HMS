@@ -14,11 +14,11 @@ socket.on("receive-message", (message, username) => {
 });
 
 // log errors to the console if any
-socket.on("client_error", (error) => {
-  console.log(error);
+socket.on("client_error", (err) => {
+  console.log(err);
 });
-socket.on("server-error", (error) => {
-  console.log(error);
+socket.on("server-error", (err) => {
+  console.log(err);
 });
 
 function deleteMessage(_id) {
@@ -64,10 +64,6 @@ function displayMessage(obj, user) {
   deletebtn.className = "delete";
   deletebtn.setAttribute("onclick", `deleteMessage('${obj._id}')`);
 
-  // const _id = document.createElement('input');
-  // _id.value = obj._id;
-  // _id.className = 'd-none';
-
   div2.appendChild(p);
   if (!obj.isAdmin || user === "Me") div2.appendChild(deletebtn);
 
@@ -78,7 +74,6 @@ function displayMessage(obj, user) {
   li.className = classes;
   li.appendChild(div2);
   li.appendChild(div);
-  // li.appendChild(_id);
 
   list.append(li);
   li.scrollIntoView({ smooth: true });
@@ -93,16 +88,8 @@ function sendMessage() {
   let message = document.getElementById("message");
 
   if (message.value.trim() !== "") {
-    displayMessage(
-      {
-        date: new Date(),
-        message: message.value,
-        user: { isAdmin: false },
-      },
-      "Me"
-    );
 
-    socket.emit("send-message", message.value);
+    socket.emit("send-message", message.value, displayMessage);
     message.value = "";
   }
 }

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const winston = require("winston");
 
 const { Message } = require("../models/message");
 const auth = require("../middleware/auth");
@@ -65,7 +66,7 @@ io.on("connection", async (socket) => {
   socket.join("community");
 
   // send-messages
-  socket.on("send-message", async (message) => {
+  socket.on("send-message", async (message, displayMessage) => {
     let msg;
     if (socket.handshake.user.isAdmin) {
       msg = await Message.create({
@@ -80,34 +81,41 @@ io.on("connection", async (socket) => {
       });
     }
 
-    // let resMsg = JSON.stringify(msg); // convert to a json for avoid mongoose object type
-    // resMsg = JSON.parse(resMsg); // converting to javascript object
-    // resMsg.user = {
-    //   _id: socket.handshake.user._id,
-    //   isAdmin: socket.handshake.user.isAdmin ? true : false,
-    // };
+    displayMessage(msg, "Me");
 
     socket
       .to("community")
       .emit("receive-message", msg, socket.handshake.user.nwi); // using .to("room") is better than .broadcast
-    // .emit("receive-message", resMsg, socket.handshake.user.nwi); // using .to("room") is better than .broadcast
   });
 
+  // socket.on("client_error", (err) => {
+  //   console.log(err);
+  //   winston.error(err);
+  // });
+  // socket.on("server_error", (err) => {
+  //   console.log(err);
+  //   winston.error(err);
+  // });
+
   socket.on("delete-message", async (_id) => {
+    console.log(_id);
+
     // is Admin
     if (!socket.handshake.user.isAdmin)
-      return socket.emit("client_error", new Error("Access denied."));
+      return socket.emit("client_error", "Access denied.");
 
     // validateId
     const { error } = validateId({ _id });
-    if (error) return socket.emit("client_error", new Error("Invalid ID"));
+    if (error) return socket.emit("client_error", "Invalid ID");
 
     const msg = await Message.findOne({ _id });
-    if (msg.isAdmin && msg.admin.toString() !== socket.handshake.user._id)
+    if (msg.isAdmin && msg.admin.toString() !== socket.handshake.user._id) {
+      console.log("first");
       return socket.emit(
         "client_error",
         "Deleting messages from Admins is denied."
       );
+    }
 
     msg.deletedBy = socket.handshake.user._id;
     msg.deletedMsg = msg.message;
