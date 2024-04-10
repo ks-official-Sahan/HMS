@@ -42,7 +42,8 @@ router.post("/admin", [auth, admin], async (req, res) => {
 
 //request leave
 router.post("/", auth, async (req, res) => {
-  const user = await User.findOne({ _id: req.user_id });
+  const user = await User.findOne({ _id: req.user._id });
+  // if (!user) return res.status(400).send("Cannot find user");
   if (user.availableLeaves === 0)
     return res.status(400).send(`${user.nwi} has 0 leaves left for this year`);
 

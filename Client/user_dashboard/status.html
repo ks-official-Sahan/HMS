@@ -35,7 +35,7 @@
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
   </head>
 
-  <body onload="setMaxDateToday(); loadStatus(); getNotificationCount();">
+  <body onload="loadStatus(); getNotificationCount();">
     <div class="wrapper">
       <!-- Side Bar -->
       <div class="sidebar" data-color="blue">
@@ -137,9 +137,7 @@
         <!-- Nav Bar -->
 
         <!-- Content -->
-        <div class="comment-container">
-          <ul class="comment-list" id="comment-list"></ul>
-          <hr />
+        <div class="status-container">
           <div class="status-box">
             <!-- New Structure -->
             <ul>
@@ -154,7 +152,10 @@
                 </select>
               </li>
               <li>
-                <p>Have you been diagnosed with any chronic health conditions recently?</p>
+                <p>
+                  Have you been diagnosed with any chronic health conditions
+                  recently?
+                </p>
                 <select class="stat-selector" id="stat2">
                   <option value="0" disabled selected>Select</option>
                   <option value="Yes">Yes</option>
@@ -162,7 +163,10 @@
                 </select>
               </li>
               <li>
-                <p>Are you taking any medication that may affect your ability to work?</p>
+                <p>
+                  Are you taking any medication that may affect your ability to
+                  work?
+                </p>
                 <select class="stat-selector" id="stat3">
                   <option value="0" disabled selected>Select</option>
                   <option value="Yes">Yes</option>
@@ -180,7 +184,10 @@
                 </select>
               </li>
               <li>
-                <p>Have you been experiencing high levels of stress or anxiety lately?</p>
+                <p>
+                  Have you been experiencing high levels of stress or anxiety
+                  lately?
+                </p>
                 <select class="stat-selector" id="stat5">
                   <option value="0" disabled selected>Select</option>
                   <option value="High">High</option>
@@ -199,7 +206,10 @@
                 </select>
               </li>
               <li>
-                <p>Are you experiencing any discomfort or pain related to your workstation setup?</p>
+                <p>
+                  Are you experiencing any discomfort or pain related to your
+                  workstation setup?
+                </p>
                 <select class="stat-selector" id="stat7">
                   <option value="0" disabled selected>Select</option>
                   <option value="Yes">Yes</option>
@@ -207,8 +217,11 @@
                 </select>
               </li>
               <li>
-                <p>How often do you engage in physical activity and exercise during the week?</p>
-                <input class="stat-selector" id="stat8" type="text"/>
+                <p>
+                  How often do you engage in physical activity and exercise
+                  during the week?
+                </p>
+                <input class="stat-selector" id="stat8" type="text" />
               </li>
               <li>
                 <p>Are you able to maintain healthy and balanced diet?</p>
@@ -219,7 +232,10 @@
                 </select>
               </li>
               <li>
-                <p>Are you aware of the mental health resources and support available to you?</p>
+                <p>
+                  Are you aware of the mental health resources and support
+                  available to you?
+                </p>
                 <select class="stat-selector" id="stat10">
                   <option value="0" disabled selected>Select</option>
                   <option value="Yes">Yes</option>
@@ -227,12 +243,18 @@
                 </select>
               </li>
               <li>
-                <p>Have you utilized any mental health rosources provided by the company?</p>
-                <input class="stat-selector" id="stat11" type="text"/>
+                <p>
+                  Have you utilized any mental health rosources provided by the
+                  company?
+                </p>
+                <input class="stat-selector" id="stat11" type="text" />
               </li>
               <li>
-                <p>Do you have any suggestions or feedback regarding the health check process or company support for employee well-being?</p>
-                <input class="stat-selector" id="stat12" type="text"/>
+                <p>
+                  Do you have any suggestions or feedback regarding the health
+                  check process or company support for employee well-being?
+                </p>
+                <input class="stat-selector" id="stat12" type="text" />
               </li>
             </ul>
 
@@ -243,8 +265,12 @@
               class="comment-input"
               placeholder="Write a health status"
             ></textarea> -->
-            <button style="width: 50%; margin-left: 25%;" onclick="addStatus()">Submit</button>
+            <button style="width: 50%; margin-left: 25%" onclick="addStatus()">
+              Submit
+            </button>
           </div>
+          <hr />
+          <ul class="comment-list" id="comment-list"></ul>
         </div>
         <!-- Content -->
       </div>

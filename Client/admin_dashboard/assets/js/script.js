@@ -57,11 +57,40 @@ function loadStatus() {
           dateTxt.textContent = formatDate(obj.date);
 
           const li = document.createElement("li");
-          li.className = "comment status";
-          li.textContent = obj.description;
+          li.className = "status";
           li.appendChild(dateTxt);
+          li.appendChild(document.createElement("hr"));
+
+          const stats = [
+            "Currently have any health concerns or symptoms: ",
+            "Been diagnosed with any chronic health conditions recently: ",
+            "Taking any medication that may affect your ability to work: ",
+            "Overall welbeing rate: ",
+            "Been experiencing high levels of stress or anxiety lately: ",
+            "Getting sufficient sleep and rest: ",
+            "Experiencing any discomfort or pain related to your workstation setup: ",
+            "How often do engage in physical activity and exercise during the week: ",
+            "Able to maintain healthy and balanced diet: ",
+            "Aware of the available mental health resources and support: ",
+            "Utilized any mental health rosources provided by the company: ",
+            "Any suggestions or feedback: ",
+          ];
+          for (let i = 0; i < 12; i++) {
+            const item = document.createElement("p");
+
+            const question = document.createElement("span");
+            question.textContent = stats[i];
+            item.appendChild(question);
+
+            const answer = document.createElement("span");
+            answer.textContent = obj["stat" + (i + 1)];
+            item.appendChild(answer);
+
+            li.append(item);
+          }
 
           list.append(li);
+          li.scrollIntoView({ smooth: true });
         }
       } else {
         console.log("Bad Request", request.status, res);
@@ -162,6 +191,7 @@ function createItems(resObj, type) {
     item.appendChild(buttons);
 
     list.append(item);
+    item.scrollIntoView({ smooth: true });
   }
 }
 
@@ -518,7 +548,9 @@ function loadUserProfile() {
           document.getElementById("left-column").classList.add("deactive");
           btn.className = "save-button";
           btn.textContent = "Activate User";
-          document.getElementById('updated').textContent = `Deactivated by ${resObj.updatedBy.nwi}`;
+          document.getElementById(
+            "updated"
+          ).textContent = `Deactivated by ${resObj.updatedBy.nwi}`;
         }
         document.getElementById("dob2").value = resObj.dob;
         document.getElementById("email2").value = resObj.email;
@@ -693,7 +725,6 @@ function changeUserStatus() {
   request.send(JSON.stringify({ updateStatus: true }));
 }
 
-
 /* Profile */
 function loadProfile() {
   const request = new XMLHttpRequest();
@@ -711,7 +742,6 @@ function loadProfile() {
         document.getElementById("position").textContent = resObj.position.name;
         document.getElementById("email2").value = resObj.email;
         document.getElementById("mobile").value = resObj.mobile;
-
       } else {
         console.log("Bad Request", request.status, res);
         alert(res);
@@ -773,4 +803,3 @@ function updateProfile() {
   request.setRequestHeader("x-auth-token", getToken());
   request.send(jsonData);
 }
- 

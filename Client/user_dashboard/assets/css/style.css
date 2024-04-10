@@ -15,7 +15,8 @@
 }
 
 .comment-container hr,
-.notification-container hr {
+.notification-container hr,
+.status-container hr {
     width: 98%;
     border-bottom: solid 3px rgba(0, 0, 0, 0.501);
 }
@@ -48,37 +49,6 @@
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column-reverse;
-}
-
-.msg-list {
-    width: 100%;
-    list-style: none;
-    padding: 30px;
-    margin: 0;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.d-none {
-    display: none;
-}
-
-.status-box {
-    width: 100%;
-    overflow-y: scroll;
-}
-
-.status-box p {
-    margin-bottom: 2px;
-}
-
-.stat-selector {
-    width: 30%;
-    min-width: 300px;
-    margin-bottom: 10px;
 }
 
 .notification-box,
@@ -140,8 +110,100 @@ button:hover {
     background-color: #389876;
 }
 
+/* Status */
+
+.status-container {
+    max-width: 95%;
+    max-height: 200vh;
+    height: fit-content;
+    min-height: fit-content;
+    margin: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.status-list {
+    width: 100%;
+    height: fit-content;
+    list-style: none;
+    padding: 30px;
+    margin: 0;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.status-box {
+    width: 100%;
+    /* overflow-y: scroll; */
+}
+
+.status-box p {
+    margin-bottom: 2px;
+}
+
+.stat-selector {
+    width: 30%;
+    min-width: 300px;
+    margin-bottom: 10px;
+}
+
 .status {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #42b2a7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.status p {
+    display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px rgba(25, 39, 70, 0.6) solid;
+    margin-bottom: 2px;
+    width: 95%;
+}
+
+.status hr {
+    margin-top: 5px;
+    background-color: #ffffff;
+    width: 75%;
+}
+
+.status p span {
+    color: #0f1418;
+}
+
+
+/* Messages */
+
+.msg-list {
+    width: 100%;
+    list-style: none;
+    padding: 30px;
+    margin: 0;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.d-none {
+    display: none;
 }
 
 .seen {

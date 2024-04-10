@@ -3,15 +3,21 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const statusSchema = new mongoose.Schema({
+  stat1: String,
+  stat2: String,
+  stat3: String,
+  stat4: String,
+  stat5: String,
+  stat6: String,
+  stat7: String,
+  stat8: String,
+  stat9: String,
+  stat10: String,
+  stat11: String,
+  stat12: String,
   date: {
     type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-    minLength: 4,
-    maxLength: 1024,
+    default: () => Date.now(),
   },
   user: {
     type: mongoose.Types.ObjectId,
@@ -28,8 +34,6 @@ const Status = mongoose.model("Status", statusSchema);
 
 function validateStatus(status) {
   const schema = Joi.object({
-    date: Joi.date().required(),
-    description: Joi.string().min(4).max(1024).required(),
     user: Joi.objectId().required(),
   });
 

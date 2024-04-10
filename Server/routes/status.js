@@ -39,14 +39,25 @@ router.get("/:_id", [auth, admin], async (req, res) => {
 // submit status
 router.post("/", auth, async (req, res) => {
   req.body.user = req.user._id;
-  const { error } = validateStatus(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  // const { error } = validateStatus(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
 
   const status = await Status.create({
-    date: req.body.date,
-    description: req.body.description,
+    // date: req.body.date,
+    // description: req.body.description,
+    stat1: req.body.stat1,
+    stat2: req.body.stat2,
+    stat3: req.body.stat3,
+    stat4: req.body.stat4,
+    stat5: req.body.stat5,
+    stat6: req.body.stat6,
+    stat7: req.body.stat7,
+    stat8: req.body.stat8,
+    stat9: req.body.stat9,
+    stat10: req.body.stat10,
+    stat11: req.body.stat11,
+    stat12: req.body.stat12,
     user: req.user._id,
-    // user: req.body._id,
   });  
 
   const notification = await Notification.create({

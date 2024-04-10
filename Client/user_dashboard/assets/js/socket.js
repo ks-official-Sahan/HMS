@@ -69,16 +69,15 @@ function sendMessage() {
   let message = document.getElementById("message");
 
   if (message.value.trim() !== "") {
-    displayMessage(
-      {
-        date: new Date(),
-        message: message.value,
-        user: { isAdmin: false },
-      },
-      "Me"
-    );
-
-    socket.emit("send-message", message.value);
+    // displayMessage(
+    //   {
+    //     date: new Date(),
+    //     message: message.value,
+    //     user: { isAdmin: false },
+    //   },
+    //   "Me"
+    // );
+    socket.emit("send-message", message.value, displayMessage);
     message.value = "";
   }
 }

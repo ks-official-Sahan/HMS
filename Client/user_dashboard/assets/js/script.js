@@ -41,43 +41,46 @@ function logout() {
 /*   Health Status   */
 
 function addStatus() {
-  const description = document.getElementById("description");
-  const date = document.getElementById("date");
+  let data = {};
 
-  if (description.value.trim() !== "" && date.value.trim() !== "") {
-    const data = {
-      date: date.value,
-      description: description.value,
-    };
+  for (let i = 1; i <= 12; i++) {
+    const stat = document.getElementById(`stat${i}`);
+    if (stat.value == 0 || stat.value.trim() === "") {
+      stat.focus();
+      return alert(`Insufficient information. Update information on form ${i}`);
+    }
+    data[`stat${i}`] = stat.value;
+  }
 
-    const jsonData = JSON.stringify(data);
+  const jsonData = JSON.stringify(data);
+  console.log(jsonData);
 
-    const request = new XMLHttpRequest();
+  const request = new XMLHttpRequest();
 
-    request.onreadystatechange = function () {
-      if (request.readyState === 4) {
-        const res = request.responseText;
-        if (request.status === 200) {
-          // window.location.reload();
-          loadStatus();
+  request.onreadystatechange = function () {
+    if (request.readyState === 4) {
+      const res = request.responseText;
+      if (request.status === 200) {
+        // window.location.reload();
+        loadStatus();
 
-          description.value = "";
-          date.value = "";
-        } else {
-          console.log("Bad Request", request.status, res);
-          alert(res);
-          if (request.status === 401) {
-            window.location = "../login.html";
-          }
+        for (let i = 1; i <= 12; i++) {
+          document.getElementById(`stat${i}`).value = "" || 0;
+        }
+      } else {
+        console.log("Bad Request", request.status, res);
+        alert(res);
+        if (request.status === 401) {
+          window.location = "../login.html";
         }
       }
-    };
+    }
+  };
 
-    request.open("POST", "http://localhost:3000/api/status/");
-    request.setRequestHeader("Content-Type", "application/json");
-    request.setRequestHeader("x-auth-token", getToken());
-    request.send(jsonData);
-  }
+  request.open("POST", "http://localhost:3000/api/status/");
+  request.setRequestHeader("Content-Type", "application/json");
+  request.setRequestHeader("x-auth-token", getToken());
+  request.send(jsonData);
 }
 
 function loadStatus() {
@@ -97,11 +100,40 @@ function loadStatus() {
           dateTxt.textContent = formatDate(obj.date);
 
           const li = document.createElement("li");
-          li.className = "comment status";
-          li.textContent = obj.description;
+          li.className = "status";
           li.appendChild(dateTxt);
+          li.appendChild(document.createElement("hr"));
+
+          const stats = [
+            "Currently have any health concerns or symptoms: ",
+            "Been diagnosed with any chronic health conditions recently: ",
+            "Taking any medication that may affect your ability to work: ",
+            "Overall welbeing rate: ",
+            "Been experiencing high levels of stress or anxiety lately: ",
+            "Getting sufficient sleep and rest: ",
+            "Experiencing any discomfort or pain related to your workstation setup: ",
+            "How often do engage in physical activity and exercise during the week: ",
+            "Able to maintain healthy and balanced diet: ",
+            "Aware of the available mental health resources and support: ",
+            "Utilized any mental health rosources provided by the company: ",
+            "Any suggestions or feedback: ",
+          ];
+          for (let i = 0; i < 12; i++) {
+            const item = document.createElement("p");
+
+            const question = document.createElement("span");
+            question.textContent = stats[i];
+            item.appendChild(question);
+
+            const answer = document.createElement("span");
+            answer.textContent = obj["stat" + (i + 1)];
+            item.appendChild(answer);
+
+            li.append(item);
+          }
 
           list.append(li);
+          li.scrollIntoView({ smooth: true });
         }
       } else {
         console.log("Bad Request", request.status, res);
@@ -142,7 +174,7 @@ function createItems(resObj) {
     li.className = `comment ${
       obj.status === "Approve"
         ? " approved"
-        : obj.status === "Rejected"
+        : obj.status === "Reject"
         ? " rejected"
         : ""
     }`;
@@ -150,6 +182,7 @@ function createItems(resObj) {
     li.appendChild(div);
 
     list.append(li);
+    li.scrollIntoView({ smooth: true });
   }
 }
 
