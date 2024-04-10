@@ -45,7 +45,6 @@
     font: lighter;
 }
 
-
 /* U */
 .comment-container,
 .notification-container {
@@ -84,6 +83,8 @@
 .notification-box,
 .comment-box {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .comment,
@@ -119,6 +120,40 @@
     padding-bottom: 2px;
     display: flex;
     justify-content: space-between;
+}
+
+.comment-input {
+    width: 80%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.msg-list {
+    width: 100%;
+    list-style: none;
+    padding: 30px;
+    margin: 0;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.d-none {
+    display: none;
+}
+
+.status-box {
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.status-box p {
+    margin-bottom: 2px;
 }
 
 button {
@@ -208,6 +243,49 @@ button {
     padding: 10px 15px;
     margin: 5px;
     cursor: pointer;
+}
+
+.delete {
+    width: 5%;
+    background-color: red;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+}
+
+.approved {
+    background-color: #8ee9d24a;
+}
+
+.rejected {
+    background-color: #d2a7a722;
+}
+
+.admin {
+    background-color: #d2a7a722;
+    /* margin: 5%; */
+    align-self: center;
+    width: fit-content;
+    min-width: 10%;
+    max-width: 90%;
+}
+
+.left {
+    width: fit-content;
+    min-width: 10%;
+    max-width: 90%;
+    /* flex-direction: row; */
+}
+
+.right {
+    background-color: #8ee9d24a;
+    margin-left: 10%;
+    width: fit-content;
+    min-width: 10%;
+    max-width: 90%;
+    align-self: flex-end;
+    /* flex-direction: row; */
 }
 
 .accept {

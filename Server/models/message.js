@@ -14,11 +14,27 @@ const messageSchema = new mongoose.Schema({
     minLength: 1,
     maxLength: 1024,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
-    required: true,
   },
+  admin: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admin",
+  },
+  deletedBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admin",
+  },
+  deletedMsg: {
+    type: String,
+    minLength: 1,
+    maxLength: 1024,
+  }
 });
 
 const Message = mongoose.model("Message", messageSchema);

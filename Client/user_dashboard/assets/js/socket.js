@@ -21,6 +21,15 @@ socket.on("server-error", (error) => {
   console.log(error);
 });
 
+socket.on("delete-by-admin", (msg, _id) => {
+  updateMessage(_id, msg);
+});
+
+function updateMessage(_id, msg) {
+  const message = document.getElementById(_id);
+  message.textContent = msg;
+}
+
 // add msg to the display
 function displayMessage(obj, user) {
   const list = document.getElementById("comment-list");
@@ -37,9 +46,10 @@ function displayMessage(obj, user) {
 
   const p = document.createElement("p");
   p.textContent = obj.message;
+  p.id = obj._id;
 
   let classes = `comment ${user === "Me" ? " right" : " left"} `;
-  if (obj.user.isAdmin === true) classes = "comment admin";
+  if (obj.isAdmin) classes = "comment admin";
 
   const li = document.createElement("li");
   li.className = classes;
@@ -88,7 +98,7 @@ function loadMessages() {
 
         for (var obj of resObj) {
           // display Messages
-          displayMessage(obj, obj.user.nwi);
+          displayMessage(obj, obj.isAdmin ? obj.admin.nwi : obj.user.nwi);
         }
       } else {
         console.log("Bad Request", request.status, res);

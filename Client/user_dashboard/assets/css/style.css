@@ -21,7 +21,7 @@
 }
 
 .comment-input {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     box-sizing: border-box;
     border: 1px solid #ddd;
@@ -84,6 +84,8 @@
 .notification-box,
 .comment-box {
     width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .comment,

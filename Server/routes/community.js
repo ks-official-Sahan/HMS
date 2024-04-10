@@ -13,6 +13,7 @@ const router = express.Router();
 
 const { getSocket } = require("../startup/socket");
 const { required, valid } = require("joi");
+const e = require("express");
 
 let user;
 // load all previous messages
@@ -20,11 +21,16 @@ router.get("/", auth, async (req, res) => {
   const msgList = await Message.find()
     .sort({ date: 1 })
     .select("-__v")
-    .populate("user", { nwi: 1, _id: 1 });
+    .populate("user", { nwi: 1, _id: 1 })
+    .populate("admin", { nwi: 1, _id: 1 });
 
   for (msg of msgList) {
-    if (msg.user._id.toString() === req.user._id) msg.user.nwi = "Me";
-    msg.user.isAdmin = req.user.isAdmin ? true : false;
+    if (msg.isAdmin) {
+      if (msg.admin._id.toString() === req.user._id) msg.admin.nwi = "Me";
+    } else {
+      if (msg.user._id.toString() === req.user._id) msg.user.nwi = "Me";
+    }
+    // msg.user.isAdmin = req.user.isAdmin ? true : false;
   }
 
   res.send(JSON.stringify(msgList));
@@ -60,21 +66,31 @@ io.on("connection", async (socket) => {
 
   // send-messages
   socket.on("send-message", async (message) => {
-    const msg = await Message.create({
-      message,
-      user: socket.handshake.user._id,
-    });
+    let msg;
+    if (socket.handshake.user.isAdmin) {
+      msg = await Message.create({
+        message,
+        isAdmin: true,
+        admin: socket.handshake.user._id,
+      });
+    } else {
+      msg = await Message.create({
+        message,
+        user: socket.handshake.user._id,
+      });
+    }
 
-    let resMsg = JSON.stringify(msg); // convert to a json for avoid mongoose object type
-    resMsg = JSON.parse(resMsg); // converting to javascript object
-    resMsg.user = {
-      _id: socket.handshake.user._id,
-      isAdmin: socket.handshake.user.isAdmin ? true : false,
-    };
+    // let resMsg = JSON.stringify(msg); // convert to a json for avoid mongoose object type
+    // resMsg = JSON.parse(resMsg); // converting to javascript object
+    // resMsg.user = {
+    //   _id: socket.handshake.user._id,
+    //   isAdmin: socket.handshake.user.isAdmin ? true : false,
+    // };
 
     socket
       .to("community")
-      .emit("receive-message", resMsg, socket.handshake.user.nwi); // using .to("room") is better than .broadcast
+      .emit("receive-message", msg, socket.handshake.user.nwi); // using .to("room") is better than .broadcast
+    // .emit("receive-message", resMsg, socket.handshake.user.nwi); // using .to("room") is better than .broadcast
   });
 
   socket.on("delete-message", async (_id) => {
@@ -83,14 +99,36 @@ io.on("connection", async (socket) => {
       return socket.emit("client_error", new Error("Access denied."));
 
     // validateId
-    const { error } = validateId({ _id: socket.handshake._id });
+    const { error } = validateId({ _id });
     if (error) return socket.emit("client_error", new Error("Invalid ID"));
 
-    const msg = await Message.findOne({ _id: _id });
-    msg.message = `Deleted by Admin on ${new Date.now()}`;
+    const msg = await Message.findOne({ _id });
+    if (msg.isAdmin && msg.admin.toString() !== socket.handshake.user._id)
+      return socket.emit(
+        "client_error",
+        "Deleting messages from Admins is denied."
+      );
+
+    msg.deletedBy = socket.handshake.user._id;
+    msg.deletedMsg = msg.message;
+    if (msg.isAdmin && msg.admin.toString() !== socket.handshake.user._id) {
+      msg.message = `Deleted for Everyone: on ${new Date(
+        Date.now()
+      ).toLocaleString("en-US", {
+        timeZone: "IST",
+      })}`;
+    } else {
+      msg.message = `Deleted by Admin: ${
+        socket.handshake.user.nwi
+      } on ${new Date(Date.now()).toLocaleString("en-US", {
+        timeZone: "IST",
+      })}`;
+    }
+
     await msg.save();
 
-    socket.to("community").emit("delete-by-admin");
+    socket.to("community").emit("delete-by-admin", msg.message, _id);
+    socket.emit("delete-by-admin", msg.message, _id);
   });
 });
 

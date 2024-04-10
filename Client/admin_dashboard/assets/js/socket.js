@@ -21,6 +21,24 @@ socket.on("server-error", (error) => {
   console.log(error);
 });
 
+function deleteMessage(_id) {
+  const confirmation = window.confirm(
+    "This message will be deleted for users."
+  );
+  if (confirmation) {
+    socket.emit("delete-message", _id);
+  }
+}
+
+socket.on("delete-by-admin", (msg, _id) => {
+  updateMessage(_id, msg);
+});
+
+function updateMessage(_id, msg) {
+  const message = document.getElementById(_id);
+  message.textContent = msg;
+}
+
 // add msg to the display
 function displayMessage(obj, user) {
   const list = document.getElementById("comment-list");
@@ -34,23 +52,33 @@ function displayMessage(obj, user) {
   const dateTxt = document.createElement("span");
   dateTxt.textContent = formatDateTime(obj.date);
   div.append(dateTxt);
-  
+
+  const div2 = document.createElement("div");
 
   const p = document.createElement("p");
   p.textContent = obj.message;
+  p.id = obj._id;
 
-  const _id = document.createElement('input');
-  _id.value = obj._id;
-  _id.className = 'd-none';
+  const deletebtn = document.createElement("button");
+  deletebtn.textContent = "";
+  deletebtn.className = "delete";
+  deletebtn.setAttribute("onclick", `deleteMessage('${obj._id}')`);
+
+  // const _id = document.createElement('input');
+  // _id.value = obj._id;
+  // _id.className = 'd-none';
+
+  div2.appendChild(p);
+  if (!obj.isAdmin || user === "Me") div2.appendChild(deletebtn);
 
   let classes = `comment ${user === "Me" ? " right" : " left"} `;
-  if (obj.user.isAdmin === true) classes = "comment admin";
+  if (obj.isAdmin && user !== "Me") classes = "comment admin";
 
   const li = document.createElement("li");
   li.className = classes;
-  li.appendChild(p);
+  li.appendChild(div2);
   li.appendChild(div);
-  li.appendChild(_id);
+  // li.appendChild(_id);
 
   list.append(li);
   li.scrollIntoView({ smooth: true });
@@ -94,7 +122,7 @@ function loadMessages() {
 
         for (var obj of resObj) {
           // display Messages
-          displayMessage(obj, obj.user.nwi);
+          displayMessage(obj, obj.isAdmin ? obj.admin.nwi : obj.user.nwi);
         }
       } else {
         console.log("Bad Request", request.status, res);
