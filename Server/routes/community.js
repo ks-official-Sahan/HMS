@@ -62,9 +62,13 @@ io.on("connection", async (socket) => {
     return socket.emit("server_error", "Something failed");
   }
 
+
+
   // joined community room to get every one together. Don't really need for single chat. But if .to("room") is used, need to .join("room")
   socket.join("community");
 
+
+  
   // send-messages
   socket.on("send-message", async (message, displayMessage) => {
     let msg;

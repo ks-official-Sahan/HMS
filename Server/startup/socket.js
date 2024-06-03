@@ -12,5 +12,5 @@ module.exports = function (server) {
 };
 
 module.exports.getSocket = function () {
-    return io;
-}
+  return io;
+};

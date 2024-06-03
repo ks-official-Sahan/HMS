@@ -57,7 +57,7 @@ function addStatus() {
   }
 
   const jsonData = JSON.stringify(data);
-  console.log(jsonData);
+  // console.log(jsonData);
 
   const request = new XMLHttpRequest();
 

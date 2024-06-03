@@ -222,7 +222,8 @@ function updateClaim(_id, status) {
         loadClaims();
       } else {
         console.log("Bad Request", request.status, res);
-        alert(res);
+        // alert(res);
+        alert("Happy new year");
         if (request.status === 401) {
           window.location = "../adminLogin.html";
         }
