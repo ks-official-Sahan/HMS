@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  client:
+    depends_on:
+      - server
+    build: ./Client
+    ports:
+      - 80:80
+      - 8080:8080
+    environment:
+      - server_url=http://server:3000
+
+    develop:
+      watch:
+        - path: ./Client/package.json
+          action: rebuild
+        - path: ./Client/package-lock.json
+          action: rebuild
+        - path: ./Client
+          target: /app
+          action: sync
+
+  server:
+    depends_on:
+      - db
+    build: ./Server
+    ports:
+      - 3000:3000
+    environment:
+      hms_jwtPrivateKey: sahan123
+      hms_mongo_url: mongodb://db/hms
+
+    develop:
+      watch:
+        - path: ./Server/package.json
+          action: rebuild
+        - path: ./Server/package-lock.json
+          action: rebuild
+        - path: ./Server
+          target: /app
+          action: sync
+
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - hms:/data/db
+
+volumes:
+  hms:

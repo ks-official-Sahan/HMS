@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "node index.js",
+    "db": "node solid-data-insert/statics.js"
   },
   "keywords": [],
   "author": "",

@@ -7,7 +7,7 @@ function login() {
       email: username.value,
       password: password.value,
     };
-    
+
     const jsonData = JSON.stringify(data);
 
     // fetch('http://localhost:3000/api/auth/user', {
@@ -29,8 +29,6 @@ function login() {
     //   })
     //   .then(data => console.log(data))
     //   .catch(err => console.log(err.message))
-
-    
 
     const request = new XMLHttpRequest();
 

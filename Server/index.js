@@ -1,3 +1,5 @@
+require("./solid-data-insert/statics")();
+
 const winston = require("winston");
 
 const express = require("express");
